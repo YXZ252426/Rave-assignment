@@ -2,9 +2,9 @@
 
 Date: 2026-10-05
 
-Status: G1 complete and verified on 2026-10-05. G2-G5 pending.
+Status: G1 and G2 complete and verified on 2026-10-05. G3-G5 pending.
 
-Default implementation: TypeScript CLI on Node.js 24 LTS
+Default implementation: TypeScript CLI on Node.js 24 LTS (24.5+ required for environment proxy support)
 
 This document defines an AI-native implementation workflow organized around five end-to-end goals. Each goal is a milestone and normally produces one substantial, reviewable commit. Completion is recorded explicitly below. Planned goals and commit messages alone are not evidence of working features or successful live quotes.
 
@@ -47,14 +47,14 @@ The assignment uses a simplified LI.FI-inspired input model. It does not require
 
 ## 2. Research baseline and unresolved dependencies
 
-| Item                         | Current evidence                                                                                                  | Implementation consequence                                                     |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Local repository             | G1 CLI, examples, tests, and documentation complete; C1 records the implementation baseline                       | Start with a small CLI project                                                 |
-| LI.FI supported chains       | A direct request returned HTTP 200 and included Ethereum and Base                                                 | Use this endpoint for the discovery bonus                                      |
-| Bebop quote access           | One unauthenticated Ethereum request returned a Cloudflare HTTP 403 HTML page                                     | A successful live quote has not yet been demonstrated                          |
-| Bebop authentication         | API Reference marks Bearer authorization as required; Quickstart describes restricted unauthenticated demo access | Support optional API-key configuration and verify actual behavior              |
-| Token coverage               | Chains are documented; the proposed token subset still needs provider-level verification                          | Confirm addresses, decimals, and quote availability before advertising support |
-| Existing project constraints | No applicable `AGENTS.md` found during the directory check                                                        | This plan supplies the initial conventions                                     |
+| Item                         | Current evidence                                                                                                  | Implementation consequence                                        |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Local repository             | G1 and G2 implementation, tests, examples, and documentation complete                                             | C1 and C2 record separate working capabilities                    |
+| LI.FI supported chains       | A direct request returned HTTP 200 and included Ethereum and Base                                                 | Use this endpoint for the discovery bonus                         |
+| Bebop quote access           | G2 Node client obtained real Ethereum and Base quotes; G1 403 failures remain historical                          | Two-chain live acceptance achieved; record timestamps and expiry  |
+| Bebop authentication         | API Reference marks Bearer authorization as required; Quickstart describes restricted unauthenticated demo access | Support optional API-key configuration and verify actual behavior |
+| Token coverage               | Registry checked against official lists; USDC-to-WETH real quotes observed on both chains                         | Preserve the small allowlist; current liquidity is not guaranteed |
+| Existing project constraints | No applicable `AGENTS.md` found during the directory check                                                        | This plan supplies the initial conventions                        |
 
 Bebop exposes `GET https://api.bebop.xyz/pmm/{network}/v3/quote`. Its documentation should be checked against captured responses during the integration spike. The observed Cloudflare response does not establish whether credentials alone would solve access. See the [quote reference](https://docs.bebop.xyz/rfq-api/api-reference/quote) and [Quickstart authentication guidance](https://docs.bebop.xyz/rfq-api/quickstart).
 
@@ -95,7 +95,7 @@ Pin compatible dependency versions during scaffolding. Node.js 24 is listed as L
 
 ### Proposed commands
 
-The `normalize` command and offline check scripts are implemented in G1. Other commands below are planned interfaces for later goals:
+The `normalize` and `quote` commands and offline checks are implemented. Comparison, discovery, and demo commands below remain planned interfaces:
 
 ```bash
 npm ci
@@ -320,7 +320,7 @@ Generate a short explanation from validated fields, without an LLM dependency. I
 
 The implementation is fully AI-native: work proceeds in substantial end-to-end increments, with runnable behavior and evidence at each checkpoint. Scaffolding, types, client code, presentation, and relevant tests belong together when they serve the same goal. Individual files or architectural layers do not need separate milestones or commits.
 
-**G1 is complete.** G2-G5 remain pending. The G1 probe found an external Bebop access blocker; it does not prevent offline normalization.
+**G1 and G2 are complete.** G3-G5 remain pending. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
 
 G1 acceptance evidence (2026-10-05):
 
@@ -328,7 +328,7 @@ G1 acceptance evidence (2026-10-05):
 - `npm run check` passed formatting, source/test type checking, build, and all **76 tests across 3 files**.
 - Both documented example commands ran successfully, with Ethereum text output and Base JSON output.
 - Token addresses and decimals were verified against official source lists; see [integration notes](docs/api-integration.md).
-- Both Bebop quote probes returned HTTP 403. G2 live acceptance remains pending; no successful quote is claimed.
+- Both G1 quote probes returned HTTP 403. This was the access state at G1 completion; G2 subsequently succeeded on both chains.
 
 | Goal / milestone                              | Observable outcome                                                                             | Main dependency                | Planned commit |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------ | -------------- |
@@ -356,6 +356,8 @@ Acceptance criteria:
 Run a minimal read-only Bebop access probe during this goal to expose an external blocker early. It can be a direct request; a reusable probe framework is unnecessary. Record the outcome, but do not make successful provider access a prerequisite for completing the independent intent-input goal.
 
 ### G2 — Obtain and inspect a live Bebop quote
+
+**Completed on 2026-10-05.** `npm run check` passed formatting, type checking, build, and **133 tests across 8 files**. Real quotes succeeded on Ethereum and Base, and the final npm startup command produced a further live Base report. See [live verification](docs/live-verification.md). Optional API-key header handling is tested with a fake key; authenticated live access was not exercised.
 
 **User outcome:** run `quote --intent <file>` and inspect an actual Bebop response from the supplied intent.
 
@@ -447,7 +449,7 @@ Default to **five substantial commits, one per goal**. Commit boundaries follow 
 | C4     | `feat: add LI.FI discovery and trade-size comparisons`            | LI.FI client and command, compare service and presentation, bonus tests and usage examples                                                  | Real discovery works; bounded comparisons handle mixed results and expiry correctly                  |
 | C5     | `docs: package quote explorer setup demo and submission evidence` | Final README, AI notes, integration explanations, live verification, screenshot/recording, submission links                                 | Fresh-checkout instructions work; final acceptance checklist has authentic evidence                  |
 
-These are planned commit messages, not existing Git history. C1 records the completed G1 implementation and its acceptance checks. C2-C5 remain planned; G2-G5 have not started.
+These are planned commit messages, not existing Git history. C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3-C5 remain planned; G3-G5 have not started.
 
 Working conventions:
 
@@ -505,12 +507,12 @@ Save a real terminal screenshot or short screen recording under `docs/demo/`. A 
 ### Final acceptance checklist
 
 - [x] All seven input fields are supported and documented.
-- [ ] Real Bebop quotes have been obtained on Ethereum and Base.
+- [x] Real Bebop quotes have been obtained on Ethereum and Base.
 - [x] The token registry has verified addresses and decimals.
 - [x] Cross-chain requests fail during normalization, before any networking.
-- [ ] Adapter and provider-client responsibilities are separate.
-- [ ] Every required quote and transaction field is displayed.
-- [ ] Amounts and rates avoid unsafe floating-point conversion.
+- [x] Adapter and provider-client responsibilities are separate.
+- [x] Every required quote and transaction field is displayed.
+- [x] Amounts and rates avoid unsafe floating-point conversion.
 - [ ] Invalid inputs, unsupported routes, upstream failures, and rate limits are handled.
 - [ ] No private-key, signing, approval-submission, or broadcast functionality exists.
 - [ ] Relevant mocked tests and CI checks pass.
@@ -532,4 +534,4 @@ Save a real terminal screenshot or short screen recording under `docs/demo/`. A 
 | Scope expands into a trading system            | Keep quote-only boundary and explicit exclusions                               | Defer execution and frontend extras                      |
 | CI appears successful while live API is broken | Separate offline checks from manual live acceptance                            | Submission requires both forms of evidence               |
 
-G1 provides intent input and normalization end to end; its lightweight probe surfaced a Cloudflare access blocker. Then prioritize G2: obtain and inspect real Bebop quotes before implementing the full G3 error-handling policy. External access issues remain visible until the required integration is demonstrated.
+G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. The next goal is G3: expand error handling and retry behavior, add the explicit offline demo, and configure CI. Preserve dated G1 access failures alongside the successful G2 observations.

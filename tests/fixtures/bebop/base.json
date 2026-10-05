@@ -1,0 +1,34 @@
+{
+  "requestId": "mock-request-base",
+  "quoteId": "mock-quote-base",
+  "status": "SIG_SUCCESS",
+  "chainId": 8453,
+  "approvalType": "Standard",
+  "nativeToken": "ETH",
+  "taker": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+  "receiver": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+  "expiry": 1791168660,
+  "sellTokens": {
+    "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913": {
+      "amount": "100000000",
+      "decimals": 6,
+      "symbol": "USDC"
+    }
+  },
+  "buyTokens": {
+    "0x4200000000000000000000000000000000000006": {
+      "amount": "40000000000000000",
+      "decimals": 18,
+      "symbol": "WETH"
+    }
+  },
+  "approvalTarget": "0x1111111111111111111111111111111111111111",
+  "settlementAddress": "0x2222222222222222222222222222222222222222",
+  "tx": {
+    "to": "0x3333333333333333333333333333333333333333",
+    "value": "0x0",
+    "data": "0x12345678",
+    "from": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6"
+  },
+  "warnings": []
+}

@@ -1,6 +1,6 @@
-# G1 integration findings
+# API integration findings
 
-Recorded on 2026-10-05. These observations support the input-normalization milestone; they do not establish a working Bebop quote integration.
+Recorded on 2026-10-05. The G1 observations below are historical. G2 subsequently obtained real quotes on both chains; see [live verification](live-verification.md).
 
 ## Token registry provenance
 
@@ -29,6 +29,24 @@ Each quote probe requested 100 USDC to WETH (`sell_amounts=100000000`), with `ap
 
 The Ethereum JSON response explicitly classified the failure as edge access denial. No attempt was made to bypass the block or retry it. These are failed requests, not quotes, and do not establish missing credentials or unavailable liquidity. No executable payload was received or submitted.
 
-## Implication for the next goal
+## Historical G1 implication
 
 G1 normalization works independently of network access. G2 can implement the client and use labeled fixtures while access is unresolved, but cannot be accepted as complete until real quotes succeed on both chains. Any future provider-specific schema findings must come from official documentation and actual responses; these 403 responses are not a quote schema sample.
+
+## G2 outcome and implemented mapping
+
+The Node client obtained real quotes on both chains, using the existing outbound proxy. G2 live acceptance is now supported by [dated CLI evidence](live-verification.md). The G1 failures remain in the record; a successful current path does not explain every earlier failure.
+
+| Normalized request    | Bebop query               |
+| --------------------- | ------------------------- |
+| `network`             | `/pmm/{network}/v3/quote` |
+| `sellToken.address`   | `sell_tokens`             |
+| `buyToken.address`    | `buy_tokens`              |
+| `sellAmountBaseUnits` | `sell_amounts`            |
+| `takerAddress`        | `taker_address`           |
+| `receiverAddress`     | `receiver_address`        |
+| Direct approval mode  | `approval_type=Standard`  |
+
+Only exact-input requests are made; `buy_amounts` is not sent. API keys are optional and appear only in the Bearer header. Unknown response fields are tolerated; consumed fields are runtime-validated. Token-map keys are matched without case sensitivity, while chain, amounts, accounts, and decimals must match the request.
+
+The current transport makes one GET with a 10-second deadline covering headers and body. It identifies 401, 403, and 429, reports other HTTP/transport failures, and rejects malformed or inconsistent success responses. Provider error envelopes and non-success statuses fail explicitly. Detailed provider-specific no-liquidity classification, automatic retries, and `Retry-After` handling remain G3 work.

@@ -1,0 +1,8 @@
+{
+  "requestedAt": "2026-10-05T03:00:18.553093+00:00",
+  "command": "npm --silent start -- quote --intent examples/base-usdc-weth.json",
+  "exitCode": 0,
+  "stdout": "Bebop RFQ quote (LIVE)\nChain: base (8453)\nQuote ID: 121-182681213623580689348073509147155699646\nRetrieved: 2026-10-05T03:00:19.869Z\nSell: 100 USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)\nSell amount (base units): 100000000\nBuy: 0.036260455428736315 WETH (0x4200000000000000000000000000000000000006)\nBuy amount (base units): 36260455428736315\nEffective price: 0.000362604554287363 WETH per USDC (18 decimals, rounded down)\nExpiry: 2026-10-05T03:00:29.000Z (9s remaining)\nTaker: 0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6\nReceiver: 0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6\nApproval target: 0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A\nSettlement address: 0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A\nTransaction target: 0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A\nTransaction value: 0 wei (0 ETH); excludes gas fee\nCalldata present: yes\nWarnings: none\nAnalysis: Quoted rate: 0.000362604554287363 WETH per USDC (excluding separate network fees). Quote expires in 9 seconds. Transaction calldata is present. Balances, allowances, gas, contract identity, and execution success have not been verified.\n",
+  "stderr": "",
+  "note": "Real startup-path smoke test; the start script enables the existing environment proxy. Output is a historical observation."
+}

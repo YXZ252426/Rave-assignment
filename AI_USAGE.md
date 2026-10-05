@@ -16,3 +16,13 @@ No independent human review is claimed. AI-written tests provide regression chec
 The system initially supplied Node 23.7.0. A separate temporary Node 24.21.0 installation was used for validation without replacing the system runtime. Project setup remains the documented Node 24 plus `npm ci` workflow.
 
 The shell sandbox failed with `mountinfo path is not absolute`; workspace edits and checks used the approved execution fallback. This is an environment detail, not a runtime requirement of the CLI.
+
+## G2 work and evidence
+
+Codex implemented the Bebop client, runtime response validation, exact rate/expiry inspection, quote service, optional API-key loading, proxy-aware startup, text/JSON CLI command, synthetic fixtures, and integration tests. The CLI remains quote-only.
+
+Unlike the G1 probes, real Node-client requests succeeded on both chains through the environment's existing proxy. Actual outputs and times are recorded in [live verification](docs/live-verification.md). A further request verified the final npm startup command. No API key was used in those calls; authenticated header behavior is covered by a fake-key test rather than claimed as live verification.
+
+The synthetic test data was informed by the official response contract and checked against the fields consumed by successful live requests. It is not presented as captured live payloads. No raw calldata, credential, signature, or transaction submission is part of the saved quote reports.
+
+Final G2 validation passed formatting, type checking, compilation, and all 133 tests across 8 files. The completion status is recorded in `DEVELOPMENT_PLAN.md`. Node 24.5+ is now required because startup uses the documented built-in environment proxy flag.
