@@ -4,7 +4,7 @@ Initial check on 2026-10-05 against local commit `4f98a18`; the table below pres
 
 ## Assessment
 
-The implementation satisfies the assignment's functional scope and its offline checks pass. After the initial check, the author confirmed successful operation in their own environment and authorized publication. The author-owned recording remains outstanding. The development-environment HTTP 403 is retained as a dated observation, not treated as evidence that every environment is blocked.
+The implementation satisfies the assignment's functional scope and its offline checks pass. After the initial check, the author confirmed successful operation in their own environment and authorized publication. The author has supplied the recording link: [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0). The development-environment HTTP 403 is retained as a dated observation, not treated as evidence that every environment is blocked.
 
 | Item                                                      | Verified status                                                                                                                                      | Next action                                                          |
 | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -39,10 +39,10 @@ If authorized Bebop API credentials are available, configure `BEBOP_API_KEY` usi
 
 On 2026-10-05, after reviewing the access result, the author reported that the tool runs successfully in their environment and asked to publish the repository. This is a user-reported confirmation; no new API response, credential configuration, or cause of the earlier HTTP 403 was supplied. Earlier captured successes and failures remain unchanged.
 
-Publication target: [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment), branch `main`. The initial zero-branch and zero-workflow observations in the table above describe the state before publication. The complete local history was pushed to `main` at commit `a02af85`, using the author's existing SSH authentication. The [first hosted run](https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441) completed successfully at 2026-10-05 09:37:36 UTC: installation, the complete check suite, CLI help, and the guarded offline demo all passed. The local branch tracks `origin/main`. [Publication evidence](evidence/github-publication.json) records that first verified revision; later documentation updates have their own Actions runs.
+Publication target: [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment), branch `main`. The initial zero-branch, zero-workflow, and missing-recording observations in the table above describe the state before publication and receipt of the video link. The complete local history was pushed to `main` at commit `a02af85`, using the author's existing SSH authentication. The [first hosted run](https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441) completed successfully at 2026-10-05 09:37:36 UTC: installation, the complete check suite, CLI help, and the guarded offline demo all passed. The local branch tracks `origin/main`. [Publication evidence](evidence/github-publication.json) records that first verified revision; later documentation updates have their own Actions runs.
 
-## Remaining author task
+## Final handoff
 
-Attach the screenshot or video and add its link to `SUBMISSION.md`, then send the repository URL, recording, and AI usage notes to the assignment reviewer. The three requested technical explanations are already in `SUBMISSION.md`.
+The author-provided [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0) is linked from README and `SUBMISSION.md`. The repository URL, recording link, and AI usage notes are ready to send to the assignment reviewer. The three requested technical explanations are already in `SUBMISSION.md`.
 
 A frontend, Docker image, USDT support, wallet connection, transaction execution, and further features are not needed to satisfy the current assignment scope.

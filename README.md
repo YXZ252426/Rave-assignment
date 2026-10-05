@@ -4,7 +4,7 @@ A read-only TypeScript CLI that normalizes a simplified swap intent, requests a 
 
 Supports USDC and WETH on Ethereum and Base, live LI.FI chain discovery, and comparisons across up to five trade sizes. Real Bebop quotes have succeeded on both chains; see [dated evidence](docs/live-verification.md).
 
-Start with the offline example below, then request a live quote. For the assignment deliverables, short integration explanations, and remaining handoff items, see [Submission notes](SUBMISSION.md). Source repository: [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment). The author has confirmed that the tool runs successfully in their environment and will attach the video separately. The [readiness record](docs/submission-readiness.md) distinguishes this confirmation from earlier captured quotes and a development-environment HTTP 403.
+Start with the offline example below, then request a live quote. For the assignment deliverables, short integration explanations, and remaining handoff items, see [Submission notes](SUBMISSION.md). Source repository: [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment). The author has confirmed that the tool runs successfully in their environment. **Watch the demo:** [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0). The [readiness record](docs/submission-readiness.md) distinguishes this confirmation from earlier captured quotes and a development-environment HTTP 403.
 
 ## Setup and run
 

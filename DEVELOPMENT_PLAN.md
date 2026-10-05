@@ -2,7 +2,7 @@
 
 Date: 2026-10-05
 
-Status: G1-G4 complete and verified on 2026-10-05. G5 local documentation and reproducibility verification are complete on 2026-10-05. The author will record the video and has authorized GitHub publication after confirming successful operation in their environment. Code is published on `main` and the first hosted CI run passed; see [submission readiness](docs/submission-readiness.md).
+Status: G1-G4 complete and verified on 2026-10-05. G5 local documentation and reproducibility verification are complete on 2026-10-05. The author has supplied the [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0) and authorized GitHub publication after confirming successful operation in their environment. Code is published on `main` and the first hosted CI run passed; see [submission readiness](docs/submission-readiness.md).
 
 Default implementation: TypeScript CLI on Node.js 24 LTS (24.5+ required for environment proxy support)
 
@@ -320,7 +320,7 @@ Generate a short explanation from validated fields, without an LLM dependency. I
 
 The implementation is fully AI-native: work proceeds in substantial end-to-end increments, with runnable behavior and evidence at each checkpoint. Scaffolding, types, client code, presentation, and relevant tests belong together when they serve the same goal. Individual files or architectural layers do not need separate milestones or commits.
 
-**G1-G4 and the revised local G5 scope are complete.** The author owns video recording. Code is published on the remote `main` branch and the first hosted CI run passed. Final delivery status and the latest provider-access limitation are tracked in [submission readiness](docs/submission-readiness.md). CI passed locally and the first hosted Actions run succeeded for commit `a02af85`. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
+**G1-G4 and the revised local G5 scope are complete.** The author-provided [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0) is linked in the submission notes. Code is published on the remote `main` branch and the first hosted CI run passed. Final delivery status and the latest provider-access limitation are tracked in [submission readiness](docs/submission-readiness.md). CI passed locally and the first hosted Actions run succeeded for commit `a02af85`. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
 
 G1 acceptance evidence (2026-10-05):
 
@@ -417,6 +417,8 @@ Both bonuses are implemented. Offline tests cover malformed catalogs, record ID 
 ### G5 — Package a reproducible submission
 
 **Local scope completed on 2026-10-05.** A fresh source snapshot passed `npm ci`, formatting, type checking, compilation, **244 tests across 14 files**, CLI startup/help, both normalization examples, and offline text/JSON demos on Node 24.21.0. [Local verification](docs/local-verification.md) records the commands and timestamps. README, submission notes, API/lifecycle explanations, and AI notes are updated. Application code and dependencies are unchanged.
+
+**Final handoff:** the repository is published, hosted CI has passed, and the author has supplied the [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0). Video contents were not independently reviewed by Codex.
 
 **Scope revised by the author on 2026-10-05:** finish documentation and local reproducibility verification only. The author will record the video separately and requested local delivery before GitHub publication. A missing video or repository URL remains an open final assignment deliverable, but is not part of this local implementation step. [Submission notes](SUBMISSION.md) track that handoff explicitly.
 
@@ -527,7 +529,7 @@ The author will record a real terminal screenshot or short screen recording and 
 - [x] Hosted GitHub Actions execution verified: [first successful run](https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441).
 - [x] Live and mock results are unmistakably different.
 - [x] README, submission notes, and AI usage notes reflect the implementation and delivery scope.
-- [ ] Screenshot or recording demonstrates the implemented CLI (author-owned).
+- [x] Author-provided demo recording link included: [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0).
 - [x] Code is available on [GitHub](https://github.com/YXZ252426/Rave-assignment) and the URL is included in the submission notes.
 
 ## 13. Risk register

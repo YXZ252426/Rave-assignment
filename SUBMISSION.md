@@ -2,7 +2,7 @@
 
 ## Delivery status
 
-The implementation and documentation are ready for code review in [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment). The author has confirmed that the tool runs successfully in their environment and authorized publication. The author will attach the video separately. The [first hosted verification](https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441) passed for commit `a02af85`; subsequent runs are listed in [GitHub Actions](https://github.com/YXZ252426/Rave-assignment/actions).
+The implementation and documentation are ready for code review in [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment). The author has confirmed that the tool runs successfully in their environment and authorized publication. The author-provided recording is available here: [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0). The [first hosted verification](https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441) passed for commit `a02af85`; subsequent runs are listed in [GitHub Actions](https://github.com/YXZ252426/Rave-assignment/actions).
 
 **Access evidence:** captured live quotes succeeded earlier on both chains. A later anonymous check returned HTTP 403 in the development environment; the author subsequently reported successful operation in their own environment. That confirmation is user-reported, not an additional captured API response. See the [readiness record](docs/submission-readiness.md).
 
@@ -14,7 +14,7 @@ The implementation and documentation are ready for code review in [YXZ252426/Rav
 | Real two-chain quote evidence                 | [Live verification](docs/live-verification.md)                            |
 | Clean installation and offline verification   | [Local verification](docs/local-verification.md)                          |
 | GitHub repository URL                         | [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment) |
-| Screenshot or short demo video                | To be recorded and attached by the author                                 |
+| Screenshot or short demo video                | [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0)      |
 
 ## Short explanation: LI.FI intent model
 
@@ -87,7 +87,10 @@ npm start -- compare --intent examples/base-usdc-weth.json --amounts 100,500,100
 
 The first three commands establish installation, offline checks, and an explicitly MOCK example. Live commands depend on provider availability; they never silently fall back to mocks. Add `--json` and use `npm --silent start` for machine-readable output. See the README for optional Bebop credentials, retry behavior and exit codes.
 
-## Remaining author handoff
+## Submission links
 
-- Record the implemented CLI, attach the screenshot or video, and add its path or URL here. Include input, live required fields on both chains, and a local validation failure; label any mock example and historical quote expiry.
-- Include the repository URL and AI usage notes with the recording when sending the final assignment submission.
+- [GitHub repository](https://github.com/YXZ252426/Rave-assignment)
+- [Demo video on YouTube](https://www.youtube.com/watch?v=BQnzmIagLQ0)
+- [AI usage notes](https://github.com/YXZ252426/Rave-assignment/blob/main/AI_USAGE.md)
+
+The repository and video links are ready to send to the assignment reviewer. Providing them here does not imply that the assignment has been sent to the reviewer.
