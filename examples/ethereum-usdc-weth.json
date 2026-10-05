@@ -1,0 +1,9 @@
+{
+  "fromChain": 1,
+  "toChain": 1,
+  "fromToken": "USDC",
+  "toToken": "WETH",
+  "amountIn": "100.25",
+  "userAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+  "receiverAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6"
+}

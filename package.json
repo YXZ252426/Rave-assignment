@@ -1,0 +1,32 @@
+{
+  "name": "intent-to-rfq-quote-explorer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Read-only simplified swap intent and RFQ quote explorer",
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.test.json --noEmit",
+    "prestart": "npm run build --silent",
+    "start": "node dist/cli.js",
+    "pretest": "npm run build --silent",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "commander": "15.0.0",
+    "viem": "2.57.3",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.1",
+    "prettier": "3.9.9",
+    "typescript": "7.0.2",
+    "vitest": "5.0.3"
+  }
+}

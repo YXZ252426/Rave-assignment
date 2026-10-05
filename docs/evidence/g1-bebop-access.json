@@ -1,0 +1,51 @@
+[
+  {
+    "name": "tokens-ethereum",
+    "requestedAt": "2026-10-05T02:31:12.805395+00:00",
+    "url": "https://api.bebop.xyz/pmm/ethereum/v3/tokens",
+    "authenticated": false,
+    "status": 403,
+    "contentType": "text/html; charset=UTF-8",
+    "server": "cloudflare",
+    "htmlCloudflare": true
+  },
+  {
+    "name": "quote-ethereum",
+    "requestedAt": "2026-10-05T02:31:12.806324+00:00",
+    "url": "https://api.bebop.xyz/pmm/ethereum/v3/quote?sell_tokens=0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48&buy_tokens=0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2&sell_amounts=100000000&taker_address=0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6&receiver_address=0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6&approval_type=Standard",
+    "authenticated": false,
+    "status": 403,
+    "contentType": "application/json; charset=utf-8",
+    "server": "cloudflare",
+    "response": {
+      "title": "Error 1010: Access denied",
+      "status": 403,
+      "detail": "The site owner has blocked access based on your browser's signature.",
+      "error_code": 1010,
+      "error_name": "browser_signature_banned",
+      "error_category": "access_denied",
+      "cloudflare_error": true,
+      "retryable": false
+    }
+  },
+  {
+    "name": "tokens-base",
+    "requestedAt": "2026-10-05T02:31:12.806949+00:00",
+    "url": "https://api.bebop.xyz/pmm/base/v3/tokens",
+    "authenticated": false,
+    "status": 403,
+    "contentType": "text/html; charset=UTF-8",
+    "server": "cloudflare",
+    "htmlCloudflare": true
+  },
+  {
+    "name": "quote-base",
+    "requestedAt": "2026-10-05T02:31:12.807396+00:00",
+    "url": "https://api.bebop.xyz/pmm/base/v3/quote?sell_tokens=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&buy_tokens=0x4200000000000000000000000000000000000006&sell_amounts=100000000&taker_address=0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6&receiver_address=0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6&approval_type=Standard",
+    "authenticated": false,
+    "status": 403,
+    "contentType": "text/html; charset=UTF-8",
+    "server": "cloudflare",
+    "htmlCloudflare": true
+  }
+]
