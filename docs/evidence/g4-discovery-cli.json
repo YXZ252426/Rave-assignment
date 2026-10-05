@@ -1,0 +1,227 @@
+{
+  "note": "Historical live CLI observation. Saved quotes retain their original expiry and are not refreshed or executable now. No signing or submission occurred.",
+  "startedAt": "2026-10-05T06:54:38.132267+00:00",
+  "completedAt": "2026-10-05T06:54:39.232619+00:00",
+  "command": "node --use-env-proxy dist/cli.js chains --provider lifi --json",
+  "apiKeyUsed": false,
+  "exitCode": 0,
+  "stdout": {
+    "provider": "lifi",
+    "provenance": "live",
+    "retrievedAt": "2026-10-05T06:54:39.202Z",
+    "chains": [
+      {
+        "catalogId": 1,
+        "chainId": "1",
+        "name": "Ethereum",
+        "chainType": "EVM",
+        "supportedByExplorer": true
+      },
+      {
+        "catalogId": 2,
+        "chainId": "8453",
+        "name": "Base",
+        "chainType": "EVM",
+        "supportedByExplorer": true
+      },
+      {
+        "catalogId": 3,
+        "chainId": "10",
+        "name": "Optimism",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 4,
+        "chainId": "1868",
+        "name": "Soneium",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 5,
+        "chainId": "42161",
+        "name": "Arbitrum",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 34,
+        "chainId": "137",
+        "name": "Polygon",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 35,
+        "chainId": "56",
+        "name": "Binance Smart Chain",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 36,
+        "chainId": "747474",
+        "name": "Katana",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 38,
+        "chainId": "1151111081099710",
+        "name": "Solana Mainnet",
+        "chainType": "SVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 39,
+        "chainId": "84532",
+        "name": "Base Sepolia",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 40,
+        "chainId": "421614",
+        "name": "Arbitrum Sepolia",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 41,
+        "chainId": "5042002",
+        "name": "Arc Testnet",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 42,
+        "chainId": "1672",
+        "name": "Pharos Mainnet",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 43,
+        "chainId": "728126428",
+        "name": "Tron",
+        "chainType": "TVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 67,
+        "chainId": "4663",
+        "name": "Robinhood Chain",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 68,
+        "chainId": "5042",
+        "name": "Arc",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 100,
+        "chainId": "4217",
+        "name": "Tempo",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 133,
+        "chainId": "1776",
+        "name": "Injective",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 134,
+        "chainId": "9745",
+        "name": "Plasma",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 166,
+        "chainId": "130",
+        "name": "Unichain",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 167,
+        "chainId": "43114",
+        "name": "Avalanche",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 168,
+        "chainId": "143",
+        "name": "Monad",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 169,
+        "chainId": "100",
+        "name": "Gnosis",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 170,
+        "chainId": "988",
+        "name": "Stable",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 199,
+        "chainId": "42220",
+        "name": "Celo",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 200,
+        "chainId": "57073",
+        "name": "Ink",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 201,
+        "chainId": "480",
+        "name": "World Chain",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 202,
+        "chainId": "999",
+        "name": "HyperEVM",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 203,
+        "chainId": "5000",
+        "name": "Mantle",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      },
+      {
+        "catalogId": 488,
+        "chainId": "11155111",
+        "name": "Ethereum Sepolia",
+        "chainType": "EVM",
+        "supportedByExplorer": false
+      }
+    ],
+    "note": "Explorer support indicates the local chain allowlist only. LI.FI catalog membership does not establish Bebop token-pair liquidity."
+  },
+  "stderr": null
+}

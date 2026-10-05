@@ -1,0 +1,246 @@
+{
+  "note": "Historical live CLI observation. Saved quotes retain their original expiry and are not refreshed or executable now. No signing or submission occurred.",
+  "startedAt": "2026-10-05T06:54:39.232917+00:00",
+  "completedAt": "2026-10-05T06:54:42.698409+00:00",
+  "command": "node --use-env-proxy dist/cli.js compare --intent examples/base-usdc-weth.json --amounts 100,500,1000 --json",
+  "apiKeyUsed": false,
+  "exitCode": 0,
+  "stdout": {
+    "provider": "bebop",
+    "chainId": 8453,
+    "network": "base",
+    "sellToken": {
+      "chainId": 8453,
+      "symbol": "USDC",
+      "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "decimals": 6
+    },
+    "buyToken": {
+      "chainId": 8453,
+      "symbol": "WETH",
+      "address": "0x4200000000000000000000000000000000000006",
+      "decimals": 18
+    },
+    "takerAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+    "receiverAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+    "startedAt": "2026-10-05T06:54:39.428Z",
+    "completedAt": "2026-10-05T06:54:42.683Z",
+    "outcome": "complete",
+    "counts": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0,
+      "expired": 0
+    },
+    "rows": [
+      {
+        "index": 1,
+        "amountIn": "100",
+        "amountBaseUnits": "100000000",
+        "status": "success",
+        "requestedAt": "2026-10-05T06:54:39.428Z",
+        "finishedAt": "2026-10-05T06:54:40.778Z",
+        "quote": {
+          "provider": "bebop",
+          "provenance": "live",
+          "chainId": 8453,
+          "network": "base",
+          "requestId": "8065b958-865b-4408-bf1a-065c08e6abe3",
+          "quoteId": "121-191358965011031230281643887527032994738",
+          "retrievedAt": "2026-10-05T06:54:40.775Z",
+          "inspectedAt": "2026-10-05T06:54:42.683Z",
+          "takerAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+          "receiverAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+          "sellToken": {
+            "chainId": 8453,
+            "symbol": "USDC",
+            "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "decimals": 6
+          },
+          "sellAmountBaseUnits": "100000000",
+          "sellAmount": "100",
+          "buyToken": {
+            "chainId": 8453,
+            "symbol": "WETH",
+            "address": "0x4200000000000000000000000000000000000006",
+            "decimals": 18
+          },
+          "buyAmountBaseUnits": "36302177499175189",
+          "buyAmount": "0.036302177499175189",
+          "effectivePrice": {
+            "value": "0.000363021774991751",
+            "numerator": "36302177499175189000000",
+            "denominator": "100000000000000000000000000",
+            "units": "WETH per USDC",
+            "displayDecimals": 18,
+            "rounding": "down"
+          },
+          "expiry": {
+            "unix": 1791183290,
+            "utc": "2026-10-05T06:54:50.000Z",
+            "remainingSeconds": 7,
+            "expired": false
+          },
+          "approvalTarget": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+          "settlementAddress": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+          "transaction": {
+            "target": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+            "valueBaseUnits": "0",
+            "valueNative": "0",
+            "nativeSymbol": "ETH",
+            "hasCalldata": true
+          },
+          "hasCalldata": true,
+          "warnings": [],
+          "providerWarnings": [],
+          "summary": "Quoted rate: 0.000363021774991751 WETH per USDC (excluding separate network fees). Quote expires in 7 seconds. Transaction calldata is present. Balances, allowances, gas, contract identity, and execution success have not been verified."
+        }
+      },
+      {
+        "index": 2,
+        "amountIn": "500",
+        "amountBaseUnits": "500000000",
+        "status": "success",
+        "requestedAt": "2026-10-05T06:54:40.778Z",
+        "finishedAt": "2026-10-05T06:54:41.763Z",
+        "quote": {
+          "provider": "bebop",
+          "provenance": "live",
+          "chainId": 8453,
+          "network": "base",
+          "requestId": "38562558-d510-48c7-8fa1-d7f6cee21e0a",
+          "quoteId": "121-26843082495345978093240208180101536246",
+          "retrievedAt": "2026-10-05T06:54:41.763Z",
+          "inspectedAt": "2026-10-05T06:54:42.683Z",
+          "takerAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+          "receiverAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+          "sellToken": {
+            "chainId": 8453,
+            "symbol": "USDC",
+            "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "decimals": 6
+          },
+          "sellAmountBaseUnits": "500000000",
+          "sellAmount": "500",
+          "buyToken": {
+            "chainId": 8453,
+            "symbol": "WETH",
+            "address": "0x4200000000000000000000000000000000000006",
+            "decimals": 18
+          },
+          "buyAmountBaseUnits": "181517541608622333",
+          "buyAmount": "0.181517541608622333",
+          "effectivePrice": {
+            "value": "0.000363035083217244",
+            "numerator": "181517541608622333000000",
+            "denominator": "500000000000000000000000000",
+            "units": "WETH per USDC",
+            "displayDecimals": 18,
+            "rounding": "down"
+          },
+          "expiry": {
+            "unix": 1791183291,
+            "utc": "2026-10-05T06:54:51.000Z",
+            "remainingSeconds": 8,
+            "expired": false
+          },
+          "approvalTarget": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+          "settlementAddress": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+          "transaction": {
+            "target": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+            "valueBaseUnits": "0",
+            "valueNative": "0",
+            "nativeSymbol": "ETH",
+            "hasCalldata": true
+          },
+          "hasCalldata": true,
+          "warnings": [],
+          "providerWarnings": [],
+          "summary": "Quoted rate: 0.000363035083217244 WETH per USDC (excluding separate network fees). Quote expires in 8 seconds. Transaction calldata is present. Balances, allowances, gas, contract identity, and execution success have not been verified."
+        }
+      },
+      {
+        "index": 3,
+        "amountIn": "1000",
+        "amountBaseUnits": "1000000000",
+        "status": "success",
+        "requestedAt": "2026-10-05T06:54:41.763Z",
+        "finishedAt": "2026-10-05T06:54:42.683Z",
+        "quote": {
+          "provider": "bebop",
+          "provenance": "live",
+          "chainId": 8453,
+          "network": "base",
+          "requestId": "af63a7d4-eb4b-44b6-ba41-f16b3667e19d",
+          "quoteId": "121-264181899480095219111855850062282724876",
+          "retrievedAt": "2026-10-05T06:54:42.683Z",
+          "inspectedAt": "2026-10-05T06:54:42.683Z",
+          "takerAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+          "receiverAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+          "sellToken": {
+            "chainId": 8453,
+            "symbol": "USDC",
+            "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+            "decimals": 6
+          },
+          "sellAmountBaseUnits": "1000000000",
+          "sellAmount": "1000",
+          "buyToken": {
+            "chainId": 8453,
+            "symbol": "WETH",
+            "address": "0x4200000000000000000000000000000000000006",
+            "decimals": 18
+          },
+          "buyAmountBaseUnits": "363088325878125687",
+          "buyAmount": "0.363088325878125687",
+          "effectivePrice": {
+            "value": "0.000363088325878125",
+            "numerator": "363088325878125687000000",
+            "denominator": "1000000000000000000000000000",
+            "units": "WETH per USDC",
+            "displayDecimals": 18,
+            "rounding": "down"
+          },
+          "expiry": {
+            "unix": 1791183292,
+            "utc": "2026-10-05T06:54:52.000Z",
+            "remainingSeconds": 9,
+            "expired": false
+          },
+          "approvalTarget": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+          "settlementAddress": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+          "transaction": {
+            "target": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+            "valueBaseUnits": "0",
+            "valueNative": "0",
+            "nativeSymbol": "ETH",
+            "hasCalldata": true
+          },
+          "hasCalldata": true,
+          "warnings": [],
+          "providerWarnings": [],
+          "summary": "Quoted rate: 0.000363088325878125 WETH per USDC (excluding separate network fees). Quote expires in 9 seconds. Transaction calldata is present. Balances, allowances, gas, contract identity, and execution success have not been verified."
+        }
+      }
+    ],
+    "best": {
+      "rowIndexes": [3],
+      "effectivePrice": {
+        "value": "0.000363088325878125",
+        "numerator": "363088325878125687000000",
+        "denominator": "1000000000000000000000000000",
+        "units": "WETH per USDC",
+        "displayDecimals": 18,
+        "rounding": "down"
+      }
+    },
+    "summary": "3 successful, 0 failed, 0 skipped; 0 successful quote(s) expired by completion. Best observed rate among still-valid quotes: row(s) 3.",
+    "limitations": [
+      "Sequential quotes are observations at different times, not a simultaneous market snapshot.",
+      "Rates compare buy units per sell unit and exclude separate network fees; differences are not measured market price impact.",
+      "Ranking uses exact ratios and validity at completion. Missing transaction data stays labeled and does not prevent price comparison; ranking does not establish execution readiness.",
+      "At most five sizes are requested sequentially. Each size can use up to three HTTP attempts and 20 seconds; the full comparison can take up to about 100 seconds."
+    ]
+  },
+  "stderr": null
+}

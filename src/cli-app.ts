@@ -1,17 +1,28 @@
 import { readFile } from 'node:fs/promises';
-import { Command, CommanderError } from 'commander';
+import { Command, CommanderError, Option } from 'commander';
 import { LiFiIntentAdapter } from './adapters/lifi-intent-adapter.js';
 import { BebopClient, type QuoteProvider } from './clients/bebop-client.js';
 import { readBebopApiKey } from './config/environment.js';
 import { createDemoReport } from './demo/demo.js';
-import { ExplorerError } from './domain/errors.js';
-import { renderNormalizedRequest, renderQuote } from './presentation/text.js';
+import {
+  LiFiClient,
+  type ChainCatalogProvider,
+} from './clients/lifi-client.js';
+import { CompareService } from './services/compare-service.js';
+import { ExplorerError, serializeError } from './domain/errors.js';
+import {
+  renderChains,
+  renderComparison,
+  renderNormalizedRequest,
+  renderQuote,
+} from './presentation/text.js';
 import { QuoteService } from './services/quote-service.js';
 
 interface CliDependencies {
   stdout?: (text: string) => void;
   stderr?: (text: string) => void;
   provider?: QuoteProvider;
+  lifiProvider?: ChainCatalogProvider;
   now?: () => number;
   env?: NodeJS.ProcessEnv;
   signal?: AbortSignal;
@@ -57,12 +68,18 @@ export async function runCli(
     ((text: string) => {
       process.stderr.write(text);
     });
+  let commandExitCode = 0;
+  async function bebopProvider(): Promise<QuoteProvider> {
+    if (dependencies.provider) return dependencies.provider;
+    const apiKey = await readBebopApiKey(dependencies.env);
+    return new BebopClient(apiKey ? { apiKey } : {});
+  }
   const program = new Command()
     .name('intent-rfq')
     .description(
       'Read-only intent normalization and Bebop RFQ quote inspection.',
     )
-    .version('0.3.0')
+    .version('0.4.0')
     .showSuggestionAfterError(false)
     .exitOverride()
     .configureOutput({ writeOut: stdout, writeErr: () => {} });
@@ -98,11 +115,7 @@ export async function runCli(
     .option('--json', 'Output the quote report as JSON')
     .action(async (options: IntentOptions) => {
       const input = await loadIntent(options.intent);
-      let provider = dependencies.provider;
-      if (!provider) {
-        const apiKey = await readBebopApiKey(dependencies.env);
-        provider = new BebopClient(apiKey ? { apiKey } : {});
-      }
+      const provider = await bebopProvider();
       const report = await new QuoteService(provider, dependencies.now).quote(
         input,
         dependencies.signal,
@@ -111,6 +124,57 @@ export async function runCli(
         (options.json ? JSON.stringify(report, null, 2) : renderQuote(report)) +
           '\n',
       );
+    });
+
+  program
+    .command('chains')
+    .description(
+      'Discover LI.FI Intents chains and the local supported intersection',
+    )
+    .addOption(
+      new Option('--provider <provider>', 'Chain discovery provider')
+        .choices(['lifi'])
+        .default('lifi'),
+    )
+    .option('--json', 'Output the chain catalog as JSON')
+    .action(async (options: { json?: boolean }) => {
+      const catalog = await (
+        dependencies.lifiProvider ?? new LiFiClient()
+      ).getSupportedChains(dependencies.signal);
+      stdout(
+        (options.json
+          ? JSON.stringify(catalog, null, 2)
+          : renderChains(catalog)) + '\n',
+      );
+    });
+
+  program
+    .command('compare')
+    .description('Compare sequential Bebop quotes for one to five trade sizes')
+    .requiredOption('--intent <file>', 'Path to the base intent JSON file')
+    .requiredOption(
+      '--amounts <sizes>',
+      'Comma-separated positive human-unit decimal sizes',
+    )
+    .option('--json', 'Output all successful, failed, and skipped rows as JSON')
+    .action(async (options: IntentOptions & { amounts: string }) => {
+      const input = await loadIntent(options.intent);
+      const sizes = options.amounts.split(',').map((value) => value.trim());
+      const report = await new CompareService(
+        await bebopProvider(),
+        dependencies.now,
+      ).compare(input, sizes, dependencies.signal);
+      stdout(
+        (options.json
+          ? JSON.stringify(report, null, 2)
+          : renderComparison(report)) + '\n',
+      );
+      commandExitCode =
+        report.outcome === 'cancelled'
+          ? 130
+          : report.outcome === 'complete'
+            ? 0
+            : 1;
     });
 
   program
@@ -130,7 +194,7 @@ export async function runCli(
 
   try {
     await program.parseAsync(args, { from: 'user' });
-    return 0;
+    return commandExitCode;
   } catch (error) {
     if (error instanceof CommanderError && error.exitCode === 0) return 0;
     const failure =
@@ -144,15 +208,7 @@ export async function runCli(
             );
     const output = args.includes('--json')
       ? JSON.stringify({
-          error: {
-            code: failure.code,
-            message: failure.message,
-            field: failure.field,
-            httpStatus: failure.httpStatus,
-            attempts: failure.attempts,
-            retryable: failure.retryable,
-            retryAfterMs: failure.retryAfterMs,
-          },
+          error: serializeError(failure),
         })
       : `${failure.code}${failure.field ? ` [${failure.field}]` : ''}: ${failure.message}`;
     const guidance = args.includes('--json')

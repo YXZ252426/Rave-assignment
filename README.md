@@ -2,7 +2,7 @@
 
 A read-only TypeScript CLI that normalizes a simplified swap intent, requests a Bebop RFQ quote, and explains its pricing, expiry, and transaction fields.
 
-**Implemented: G1 normalization, G2 live quoting, and G3 failure handling, offline demo, and CI.** Real quotes have succeeded on Ethereum and Base; see [dated evidence](docs/live-verification.md). The offline `normalize` command remains available for inspecting inputs.
+**Implemented: G1–G4 — normalization, live quoting, failure handling, offline demo, CI, LI.FI chain discovery, and trade-size comparisons.** Real quotes have succeeded on Ethereum and Base; see [dated evidence](docs/live-verification.md). The offline `normalize` command remains available for inspecting inputs.
 
 ## Setup and run
 
@@ -12,6 +12,8 @@ Use **Node.js 24.5+ within the 24.x line** and npm. If you use nvm, run `nvm ins
 npm ci
 npm start -- quote --intent examples/ethereum-usdc-weth.json
 npm start -- quote --intent examples/base-usdc-weth.json --json
+npm start -- chains --provider lifi
+npm start -- compare --intent examples/base-usdc-weth.json --amounts 100,500,1000
 npm start -- normalize --intent examples/ethereum-usdc-weth.json
 npm start -- normalize --intent examples/base-usdc-weth.json --json
 npm run demo
@@ -105,6 +107,25 @@ JSON also includes provider, chain, quote/request IDs, taker/receiver, retrieval
 
 An approval permits the designated spender to transfer tokens within its allowance. The tool displays the API's target but does not verify its bytecode or submit approval. Calldata presence does not establish sufficient balance, allowance, gas, contract safety, or successful execution.
 
+## Chain discovery and size comparisons
+
+```bash
+npm start -- chains --provider lifi
+npm --silent start -- chains --json
+npm start -- compare --intent examples/base-usdc-weth.json --amounts 100,500,1000
+npm --silent start -- compare --intent examples/base-usdc-weth.json --amounts 100,500,1000 --json
+```
+
+`chains` calls LI.FI Intents' public `GET https://order.li.fi/chains/supported` endpoint without authentication. It displays chain ID, name, type, catalog ID, and whether that chain is in the explorer's local allowlist. `chainId` is the network identifier; `id` is a catalog record identifier (for example, Base returned `chainId: "8453"` and `id: 2`). Discovery is independent of Bebop and does not expand the allowlist or establish pair liquidity.
+
+`compare` accepts **one to five unique positive decimal sizes**, in human units of the sell token. The base intent must still contain all seven valid fields, including `amountIn`; each supplied size then replaces that amount. Every size is checked before the first HTTP call. Values such as `100` and `100.0` count as duplicates. CLI whitespace around comma-separated entries is ignored.
+
+Requests run sequentially. Output preserves input order, retrieval times, expiry, and each row's `success`, `failed`, or `skipped` status. JSON includes the full quote inspection for every successful row. Rates use buy units per sell unit; a larger output alone does not imply a better rate. Ranking compares exact ratios, includes ties, and excludes quotes expired at collection completion. Quotes with missing transaction data stay labeled; ranking does not establish execution readiness.
+
+Partial results remain on stdout with exit code `1`; cancellation keeps collected rows and exits `130`. Authentication/access rejection, exhausted rate limits, cancellation, or an internal error skip remaining sizes. Other quote failures remain per-row results and allow later sizes to run. Each size inherits the HTTP retry budget: at most 3 attempts and 20 seconds, so five sizes can use up to 15 HTTP attempts and about 100 seconds.
+
+These are observations at different times, exclude separate gas fees, and do not measure market price impact. See [discovery and comparison notes](docs/discovery-and-comparison.md) for the data contract and dated live results.
+
 ## Offline demo
 
 ```bash
@@ -116,7 +137,7 @@ The demo is synthetic and deterministic. It uses a fixed historical inspection t
 
 ## Errors and retries
 
-Success goes to stdout and errors to stderr. With `--json`, errors contain `code`, `message`, and optional `field`, `httpStatus`, `attempts`, and `retryAfterMs`, plus `retryable` (whether the failure category permits a later attempt; it does not mean the command is still retrying). Exit codes are `0` for a displayed result/help, `2` for invalid input or unsupported routes, `1` for provider or runtime failures, and `130` for a cancelled quote request (Ctrl-C). An expired or incomplete quote can still be displayed with exit code `0` and explicit warnings; this never asserts execution readiness.
+Single-command results go to stdout and command-level errors go to stderr. Comparison row failures are embedded in the report on stdout, preserving partial results. With `--json`, errors contain `code`, `message`, and optional `field`, `httpStatus`, `attempts`, and `retryAfterMs`, plus `retryable` (whether the failure category permits a later attempt; it does not mean the command is still retrying). Exit codes are `0` for a displayed result/help, `2` for invalid input or unsupported routes, `1` for provider or runtime failures, and `130` for a cancelled request (Ctrl-C). An expired or incomplete quote can still be displayed with exit code `0` and explicit warnings; this never asserts execution readiness.
 
 The HTTP client permits at most **3 attempts**, each capped at **10 seconds**, within a **20-second total budget** covering body reads and retry waits. It retries HTTP 408, 429, 500, 502, 503, and 504, per-attempt timeouts, and selected transient connection errors. Retry delays use bounded exponential backoff with jitter.
 
@@ -138,11 +159,11 @@ The known minimum-size error was [observed live](docs/evidence/g3-provider-error
 
 ## Checks and limitations
 
-`npm run check` checks formatting, type-checks source and tests, builds the CLI, and runs offline Vitest tests. Coverage includes exact amounts, route validation, distinct receivers, query parameters, response identity checks, HTTP failures, request/body deadlines, rates, expiry, and text/JSON CLI output. Success fixtures are [explicitly synthetic](tests/fixtures/bebop/README.md); one provider-error fixture is a dated live observation. Default checks block accidental fetches and require no network or credentials. Retry waits use simulated time. `npm test` builds before testing; `npm run format` applies formatting.
+`npm run check` checks formatting, type-checks source and tests, builds the CLI, and runs offline Vitest tests. Coverage includes exact amounts, route validation, distinct receivers, query parameters, response identity checks, HTTP failures, request/body deadlines, rates, expiry, LI.FI catalog IDs, bounded sequential comparisons, partial results, and text/JSON CLI output. Success fixtures are [explicitly synthetic](tests/fixtures/bebop/README.md); one provider-error fixture is a dated live observation. Default checks block accidental fetches and require no network or credentials. Retry waits use simulated time. `npm test` builds before testing; `npm run format` applies formatting.
 
 [GitHub Actions](.github/workflows/ci.yml) is configured for pushes, pull requests, and manual runs. It installs from the lockfile on Node 24, runs the offline check suite, and exercises help and the demo. It does not call Bebop or require an API key. The workflow is configured locally; a hosted run is not claimed until the repository is pushed and Actions completes.
 
-Supported assets remain USDC and WETH on Ethereum and Base. Native ETH, USDT, cross-chain routes, broader provider-specific no-liquidity classification, LI.FI discovery, and size comparisons remain future work. Raw-response export is also deferred. Anonymous pricing, access, and quote availability may change. See [the five-goal plan](DEVELOPMENT_PLAN.md).
+Supported assets remain USDC and WETH on Ethereum and Base. Native ETH, USDT, cross-chain routes, broader provider-specific no-liquidity classification, and the full LI.FI order lifecycle remain outside the current scope. Raw-response export is also deferred. Anonymous pricing, access, and quote availability may change. See [the five-goal plan](DEVELOPMENT_PLAN.md).
 
 The project never requests private keys, signs messages or transactions, submits approvals, broadcasts transactions, or settles trades.
 

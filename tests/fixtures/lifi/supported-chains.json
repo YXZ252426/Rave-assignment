@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "chainId": "1",
+    "name": "Ethereum",
+    "chainType": "EVM"
+  },
+  {
+    "id": 2,
+    "chainId": "8453",
+    "name": "Base",
+    "chainType": "EVM"
+  },
+  {
+    "id": 3,
+    "chainId": "10",
+    "name": "Optimism",
+    "chainType": "EVM"
+  },
+  {
+    "id": 38,
+    "chainId": "1151111081099710",
+    "name": "Solana Mainnet",
+    "chainType": "SVM"
+  }
+]

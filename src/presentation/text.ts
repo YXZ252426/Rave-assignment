@@ -1,3 +1,5 @@
+import type { ChainCatalog } from '../clients/lifi-client.js';
+import type { ComparisonReport } from '../services/compare-service.js';
 import type { QuoteReport } from '../analysis/quote-inspector.js';
 import { formatAmount } from '../domain/amounts.js';
 import type { NormalizedQuoteRequest } from '../domain/types.js';
@@ -51,4 +53,55 @@ export function renderQuote(report: QuoteReport): string {
     ),
     `Analysis: ${report.summary}`,
   ].join('\n');
+}
+
+export function renderChains(catalog: ChainCatalog): string {
+  return [
+    `LI.FI Intents chain catalog (${catalog.provenance.toUpperCase()})`,
+    `Retrieved: ${catalog.retrievedAt}`,
+    'Chain ID | Chain name | Type | Catalog ID | Supported by explorer',
+    ...catalog.chains.map(
+      (chain) =>
+        `${safeText(chain.chainId)} | ${safeText(chain.name)} | ${safeText(chain.chainType)} | ${chain.catalogId} | ${chain.supportedByExplorer ? 'yes' : 'no'}`,
+    ),
+    catalog.note,
+  ].join('\n');
+}
+
+export function renderComparison(report: ComparisonReport): string {
+  const lines = [
+    `Bebop trade-size comparison: ${report.network} (${report.chainId})`,
+    `Taker: ${report.takerAddress}`,
+    `Receiver: ${report.receiverAddress}`,
+    `Completed: ${report.completedAt}`,
+    `# | Input (${report.sellToken.symbol}) | Output (${report.buyToken.symbol}) | Rate (${report.buyToken.symbol}/${report.sellToken.symbol}) | Result`,
+  ];
+  for (const row of report.rows) {
+    if (row.status === 'success') {
+      const quote = row.quote;
+      lines.push(
+        `${row.index} | ${row.amountIn} | ${quote.buyAmount} | ${quote.effectivePrice.value === '0' ? '<0.000000000000000001' : quote.effectivePrice.value} | ${quote.provenance.toUpperCase()} ${quote.expiry.expired ? 'EXPIRED' : 'valid at completion'}`,
+      );
+      lines.push(
+        `  Retrieved: ${quote.retrievedAt}; expiry: ${quote.expiry.utc}; calldata: ${quote.hasCalldata ? 'present' : 'missing'}; warnings: ${quote.warnings.join(', ') || 'none'}`,
+      );
+      for (const warning of quote.providerWarnings)
+        lines.push(`  Provider warning: ${safeText(warning)}`);
+    } else if (row.status === 'failed') {
+      lines.push(
+        `${row.index} | ${row.amountIn} | - | - | FAILED ${row.error.code}: ${safeText(row.error.message)}`,
+      );
+      lines.push(
+        `  Requested: ${row.requestedAt}; finished: ${row.finishedAt}; attempts: ${row.error.attempts ?? 'unknown'}`,
+      );
+      if (row.error.retryAfterMs !== undefined)
+        lines.push(
+          `  Provider wait guidance: at least ${Math.ceil(row.error.retryAfterMs / 1000)} seconds.`,
+        );
+    } else
+      lines.push(
+        `${row.index} | ${row.amountIn} | - | - | SKIPPED after ${row.reason.code}`,
+      );
+  }
+  return [...lines, report.summary, ...report.limitations].join('\n');
 }

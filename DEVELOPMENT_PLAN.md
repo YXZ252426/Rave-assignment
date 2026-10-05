@@ -2,7 +2,7 @@
 
 Date: 2026-10-05
 
-Status: G1-G3 complete and verified on 2026-10-05. G4-G5 pending. Hosted CI execution awaits a repository push/run.
+Status: G1-G4 complete and verified on 2026-10-05. G5 pending. Hosted CI execution awaits a repository push/run.
 
 Default implementation: TypeScript CLI on Node.js 24 LTS (24.5+ required for environment proxy support)
 
@@ -49,7 +49,7 @@ The assignment uses a simplified LI.FI-inspired input model. It does not require
 
 | Item                         | Current evidence                                                                                                  | Implementation consequence                                        |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Local repository             | G1-G3 implementation, tests, examples, demo, CI configuration, and documentation complete                         | C1-C3 record separate working capabilities                        |
+| Local repository             | G1-G4 implementation, tests, examples, demo, CI configuration, discovery/comparison, and documentation complete   | C1-C4 record separate working capabilities                        |
 | LI.FI supported chains       | A direct request returned HTTP 200 and included Ethereum and Base                                                 | Use this endpoint for the discovery bonus                         |
 | Bebop quote access           | G2 Node client obtained real Ethereum and Base quotes; G1 403 failures remain historical                          | Two-chain live acceptance achieved; record timestamps and expiry  |
 | Bebop authentication         | API Reference marks Bearer authorization as required; Quickstart describes restricted unauthenticated demo access | Support optional API-key configuration and verify actual behavior |
@@ -95,7 +95,7 @@ Pin compatible dependency versions during scaffolding. Node.js 24 is listed as L
 
 ### Proposed commands
 
-The `normalize` and `quote` commands and offline checks are implemented. The offline `demo` command is implemented in G3. Comparison and discovery below remain planned interfaces:
+All five commands below and the offline checks are implemented through G4:
 
 ```bash
 npm ci
@@ -114,7 +114,7 @@ npm run check
 - `chains --provider lifi`: fetch and display the real LI.FI chain catalog.
 - `demo`: deterministic offline fixture playback with a visible `MOCK` label.
 - `--json`: one JSON result on stdout; diagnostics go to stderr.
-- Optional `--raw`: include the provider response for debugging, without request headers or credentials.
+- Optional `--raw` remains deferred; current reports omit raw calldata and never include credentials.
 - No silent fallback from a failed live request to a successful mock result.
 
 Exit codes: `0` for successful command processing, `2` for invalid input or unsupported routes, and `1` for provider or runtime failures. A structurally valid quote can be displayed with `expired` or `missing_transaction_data` warnings; exit code `0` never asserts execution safety. A comparison containing provider failures returns its partial results and exits with `1`.
@@ -320,7 +320,7 @@ Generate a short explanation from validated fields, without an LLM dependency. I
 
 The implementation is fully AI-native: work proceeds in substantial end-to-end increments, with runnable behavior and evidence at each checkpoint. Scaffolding, types, client code, presentation, and relevant tests belong together when they serve the same goal. Individual files or architectural layers do not need separate milestones or commits.
 
-**G1-G3 are complete.** G4-G5 remain pending. CI is configured and its steps passed locally; a hosted Actions run has not been claimed. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
+**G1-G4 are complete.** G5 remains pending. CI is configured and its steps passed locally; a hosted Actions run has not been claimed. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
 
 G1 acceptance evidence (2026-10-05):
 
@@ -397,6 +397,8 @@ Acceptance criteria:
 
 ### G4 — Add discovery and quote comparison
 
+**Completed on 2026-10-05.** Formatting, type checking, build, and **244 tests across 14 files** passed on Node 24.21.0. The final discovery CLI returned 30 LI.FI catalog records with Ethereum/Base identified by `chainId`. A live Base comparison of 100, 500, and 1000 USDC returned three validated quotes, all unexpired at collection completion, with calldata present. See [G4 behavior and evidence](docs/discovery-and-comparison.md).
+
 **User outcome:** inspect LI.FI's supported chains and compare Bebop quotes for several trade sizes.
 
 Deliver `LiFiClient`, `chains --provider lifi`, and bounded sequential `compare` requests with per-row results, timestamps, expiry, and analysis. Include the tests needed for catalog interpretation, partial failures, changing quote validity, and request limits.
@@ -410,7 +412,7 @@ Acceptance criteria:
 - Output explains that sequential quotes are taken at different times and exclude separate gas fees.
 - Relevant offline checks pass.
 
-These are planned bonuses. If scope must be reduced, defer G4 explicitly before weakening required quoting, error handling, or submission evidence. G5 can then proceed with the reduced scope documented.
+Both bonuses are implemented. Offline tests cover malformed catalogs, record ID versus chain ID, independent discovery, complete validation before networking, sequential request limits, exact ranking and ties, expiry at completion, incomplete payloads, partial failure, and cancellation. Five sizes are bounded to fifteen HTTP attempts using the shared retry policy.
 
 ### G5 — Package a reproducible submission
 
@@ -451,7 +453,7 @@ Default to **five substantial commits, one per goal**. Commit boundaries follow 
 | C4     | `feat: add LI.FI discovery and trade-size comparisons`            | LI.FI client and command, compare service and presentation, bonus tests and usage examples                                                  | Real discovery works; bounded comparisons handle mixed results and expiry correctly                  |
 | C5     | `docs: package quote explorer setup demo and submission evidence` | Final README, AI notes, integration explanations, live verification, screenshot/recording, submission links                                 | Fresh-checkout instructions work; final acceptance checklist has authentic evidence                  |
 
-These are planned commit messages, not existing Git history. C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3 records G3 reliability, demo, and CI. C4-C5 remain planned; G4-G5 have not started.
+C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3 records G3 reliability, demo, and CI. C4 records G4 discovery, comparison, tests, and live evidence. C5 remains planned; G5 has not started.
 
 Working conventions:
 
@@ -536,4 +538,4 @@ Save a real terminal screenshot or short screen recording under `docs/demo/`. A 
 | Scope expands into a trading system            | Keep quote-only boundary and explicit exclusions                               | Defer execution and frontend extras                      |
 | CI appears successful while live API is broken | Separate offline checks from manual live acceptance                            | Submission requires both forms of evidence               |
 
-G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. G3 adds bounded error handling/retries, the explicit offline demo, and CI configuration. The next goal is G4: LI.FI chain discovery and trade-size comparison. Preserve dated G1 access failures alongside the successful G2 observations.
+G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. G3 adds bounded error handling/retries, the explicit offline demo, and CI configuration. G4 adds independent LI.FI chain discovery and bounded trade-size comparisons with exact ranking and partial results. The next goal is G5: final documentation, authentic demo capture, and submission packaging. Preserve dated G1 access failures alongside the successful G2 observations.

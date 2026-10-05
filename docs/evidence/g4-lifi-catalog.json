@@ -1,0 +1,189 @@
+{
+  "requestedAt": "2026-10-05T06:41:36.087Z",
+  "url": "https://order.li.fi/chains/supported",
+  "httpStatus": 200,
+  "contentType": "application/json; charset=utf-8",
+  "body": [
+    {
+      "id": 1,
+      "chainId": "1",
+      "name": "Ethereum",
+      "chainType": "EVM"
+    },
+    {
+      "id": 2,
+      "chainId": "8453",
+      "name": "Base",
+      "chainType": "EVM"
+    },
+    {
+      "id": 3,
+      "chainId": "10",
+      "name": "Optimism",
+      "chainType": "EVM"
+    },
+    {
+      "id": 4,
+      "chainId": "1868",
+      "name": "Soneium",
+      "chainType": "EVM"
+    },
+    {
+      "id": 5,
+      "chainId": "42161",
+      "name": "Arbitrum",
+      "chainType": "EVM"
+    },
+    {
+      "id": 34,
+      "chainId": "137",
+      "name": "Polygon",
+      "chainType": "EVM"
+    },
+    {
+      "id": 35,
+      "chainId": "56",
+      "name": "Binance Smart Chain",
+      "chainType": "EVM"
+    },
+    {
+      "id": 36,
+      "chainId": "747474",
+      "name": "Katana",
+      "chainType": "EVM"
+    },
+    {
+      "id": 38,
+      "chainId": "1151111081099710",
+      "name": "Solana Mainnet",
+      "chainType": "SVM"
+    },
+    {
+      "id": 39,
+      "chainId": "84532",
+      "name": "Base Sepolia",
+      "chainType": "EVM"
+    },
+    {
+      "id": 40,
+      "chainId": "421614",
+      "name": "Arbitrum Sepolia",
+      "chainType": "EVM"
+    },
+    {
+      "id": 41,
+      "chainId": "5042002",
+      "name": "Arc Testnet",
+      "chainType": "EVM"
+    },
+    {
+      "id": 42,
+      "chainId": "1672",
+      "name": "Pharos Mainnet",
+      "chainType": "EVM"
+    },
+    {
+      "id": 43,
+      "chainId": "728126428",
+      "name": "Tron",
+      "chainType": "TVM"
+    },
+    {
+      "id": 67,
+      "chainId": "4663",
+      "name": "Robinhood Chain",
+      "chainType": "EVM"
+    },
+    {
+      "id": 68,
+      "chainId": "5042",
+      "name": "Arc",
+      "chainType": "EVM"
+    },
+    {
+      "id": 100,
+      "chainId": "4217",
+      "name": "Tempo",
+      "chainType": "EVM"
+    },
+    {
+      "id": 133,
+      "chainId": "1776",
+      "name": "Injective",
+      "chainType": "EVM"
+    },
+    {
+      "id": 134,
+      "chainId": "9745",
+      "name": "Plasma",
+      "chainType": "EVM"
+    },
+    {
+      "id": 166,
+      "chainId": "130",
+      "name": "Unichain",
+      "chainType": "EVM"
+    },
+    {
+      "id": 167,
+      "chainId": "43114",
+      "name": "Avalanche",
+      "chainType": "EVM"
+    },
+    {
+      "id": 168,
+      "chainId": "143",
+      "name": "Monad",
+      "chainType": "EVM"
+    },
+    {
+      "id": 169,
+      "chainId": "100",
+      "name": "Gnosis",
+      "chainType": "EVM"
+    },
+    {
+      "id": 170,
+      "chainId": "988",
+      "name": "Stable",
+      "chainType": "EVM"
+    },
+    {
+      "id": 199,
+      "chainId": "42220",
+      "name": "Celo",
+      "chainType": "EVM"
+    },
+    {
+      "id": 200,
+      "chainId": "57073",
+      "name": "Ink",
+      "chainType": "EVM"
+    },
+    {
+      "id": 201,
+      "chainId": "480",
+      "name": "World Chain",
+      "chainType": "EVM"
+    },
+    {
+      "id": 202,
+      "chainId": "999",
+      "name": "HyperEVM",
+      "chainType": "EVM"
+    },
+    {
+      "id": 203,
+      "chainId": "5000",
+      "name": "Mantle",
+      "chainType": "EVM"
+    },
+    {
+      "id": 488,
+      "chainId": "11155111",
+      "name": "Ethereum Sepolia",
+      "chainType": "EVM"
+    }
+  ],
+  "note": "Actual public LI.FI chain catalog observed during G4. Membership is historical; it does not imply token-pair liquidity."
+}

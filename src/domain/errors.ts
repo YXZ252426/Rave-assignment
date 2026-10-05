@@ -44,3 +44,15 @@ export class ExplorerError extends Error {
     );
   }
 }
+
+export function serializeError(error: ExplorerError) {
+  return {
+    code: error.code,
+    message: error.message,
+    field: error.field,
+    httpStatus: error.httpStatus,
+    attempts: error.attempts,
+    retryable: error.retryable,
+    retryAfterMs: error.retryAfterMs,
+  };
+}

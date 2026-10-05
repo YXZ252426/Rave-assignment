@@ -32,3 +32,11 @@ npm --silent start -- quote --intent examples/base-usdc-weth.json --json
 ```
 
 Use Node 24.5+ within the 24.x line. If an API key is available, set `BEBOP_API_KEY` in the process environment or optional `.env` file. Neither was used for these observations. Provider availability, rates, transaction fields, and validity will vary between requests. No live requests run in the default test suite.
+
+## G4 discovery and comparison verification
+
+On 2026-10-05 at 06:54:38–06:54:39 UTC, the final `chains --provider lifi --json` CLI returned 30 chain records and exited 0. Its local supported intersection was Ethereum and Base; it correctly kept Base's catalog ID 2 separate from chain ID 8453.
+
+At 06:54:39–06:54:42 UTC, the final Base `compare --amounts 100,500,1000 --json` command returned three successful, validated Bebop quotes and exited 0. Each quote included calldata and was unexpired at completion. The best observed WETH-per-USDC rate belonged to row 3. No approval, signing, or submission was performed.
+
+The [G4 notes](discovery-and-comparison.md) explain semantics, limitations, and observed prices. [Discovery output](evidence/g4-discovery-cli.json) and [comparison output](evidence/g4-live-comparison.json) include command, timestamps, and exit status. These are historical reports with original expiry, not current executable quotes. Default tests do not read these reports as live responses.
