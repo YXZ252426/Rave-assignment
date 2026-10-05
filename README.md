@@ -2,7 +2,7 @@
 
 A read-only TypeScript CLI that normalizes a simplified swap intent, requests a Bebop RFQ quote, and explains its pricing, expiry, and transaction fields.
 
-**Implemented: G1 intent normalization and G2 Bebop quote inspection.** Real quotes have succeeded on Ethereum and Base; see [dated evidence](docs/live-verification.md). The offline `normalize` command remains available for inspecting inputs.
+**Implemented: G1 normalization, G2 live quoting, and G3 failure handling, offline demo, and CI.** Real quotes have succeeded on Ethereum and Base; see [dated evidence](docs/live-verification.md). The offline `normalize` command remains available for inspecting inputs.
 
 ## Setup and run
 
@@ -14,6 +14,7 @@ npm start -- quote --intent examples/ethereum-usdc-weth.json
 npm start -- quote --intent examples/base-usdc-weth.json --json
 npm start -- normalize --intent examples/ethereum-usdc-weth.json
 npm start -- normalize --intent examples/base-usdc-weth.json --json
+npm run demo
 npm run check
 ```
 
@@ -104,15 +105,44 @@ JSON also includes provider, chain, quote/request IDs, taker/receiver, retrieval
 
 An approval permits the designated spender to transfer tokens within its allowance. The tool displays the API's target but does not verify its bytecode or submit approval. Calldata presence does not establish sufficient balance, allowance, gas, contract safety, or successful execution.
 
-Success goes to stdout and errors to stderr. With `--json`, errors contain `code`, `message`, and optional `field` / `httpStatus`. Exit codes are `0` for a displayed result/help, `2` for invalid input or unsupported routes, and `1` for provider or runtime failures. An expired or incomplete quote can still be displayed with exit code `0` and explicit warnings; this never asserts execution readiness.
+## Offline demo
 
-The current client makes one GET with a 10-second deadline covering headers and body. It handles HTTP 401, 403, 429, other HTTP errors, transport failures, and invalid responses. It never retries automatically. HTTP 403 is reported as access denial rather than assumed to mean a missing API key.
+```bash
+npm run demo
+npm --silent start -- demo --json
+```
+
+The demo is synthetic and deterministic. It uses a fixed historical inspection time, shows `provenance: "mock"`, and always labels the example as expired. Amounts, contract addresses, and calldata are illustrative. It needs neither network nor credentials and does not refresh expiry to make the example look executable. Live `quote` requests never invoke the demo as a fallback.
+
+## Errors and retries
+
+Success goes to stdout and errors to stderr. With `--json`, errors contain `code`, `message`, and optional `field`, `httpStatus`, `attempts`, and `retryAfterMs`, plus `retryable` (whether the failure category permits a later attempt; it does not mean the command is still retrying). Exit codes are `0` for a displayed result/help, `2` for invalid input or unsupported routes, `1` for provider or runtime failures, and `130` for a cancelled quote request (Ctrl-C). An expired or incomplete quote can still be displayed with exit code `0` and explicit warnings; this never asserts execution readiness.
+
+The HTTP client permits at most **3 attempts**, each capped at **10 seconds**, within a **20-second total budget** covering body reads and retry waits. It retries HTTP 408, 429, 500, 502, 503, and 504, per-attempt timeouts, and selected transient connection errors. Retry delays use bounded exponential backoff with jitter.
+
+`Retry-After` seconds and HTTP-date values are respected as minimum waits. If the wait will exhaust the remaining budget, the command returns the original failure and waiting guidance immediately; it does not retry earlier than requested. Authentication/access failures, malformed or mismatched quote data, known no-quote results, and unclassified provider errors are not retried. Responses are limited to 1 MiB, and error messages do not echo upstream bodies or credentials.
+
+| Error                                 | Meaning                                                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `INVALID_INPUT` / `UNSUPPORTED_ROUTE` | Invalid local input or unsupported chain/token pair; no provider request                          |
+| `NO_QUOTE`                            | The observed Bebop minimum-size rejection (`errorCode: 104`, `MinSize:`); try a larger trade size |
+| `UPSTREAM_AUTH_ERROR`                 | HTTP 401 authentication rejection                                                                 |
+| `UPSTREAM_ACCESS_DENIED`              | HTTP 403 access denial; authentication is not assumed to be the cause                             |
+| `RATE_LIMITED`                        | HTTP 429; retries exhausted or required waiting would exceed the budget                           |
+| `UPSTREAM_TIMEOUT`                    | Attempt/total deadline exceeded                                                                   |
+| `UPSTREAM_FAILURE`                    | Other HTTP/transport errors or an unclassified provider error envelope                            |
+| `INVALID_UPSTREAM_RESPONSE`           | Invalid JSON, oversized body, malformed fields, or request/quote mismatch                         |
+| `REQUEST_CANCELLED`                   | Caller cancelled; pending requests/waits are stopped                                              |
+
+The known minimum-size error was [observed live](docs/evidence/g3-provider-error.json). Other provider-specific no-liquidity codes are intentionally left unclassified until verified. See [reliability notes](docs/reliability.md) for validation scope.
 
 ## Checks and limitations
 
-`npm run check` checks formatting, type-checks source and tests, builds the CLI, and runs offline Vitest tests. Coverage includes exact amounts, route validation, distinct receivers, query parameters, response identity checks, HTTP failures, request/body deadlines, rates, expiry, and text/JSON CLI output. Test fixtures are [explicitly synthetic](tests/fixtures/bebop/README.md); default checks require no network or credentials. `npm test` builds before testing; `npm run format` applies formatting.
+`npm run check` checks formatting, type-checks source and tests, builds the CLI, and runs offline Vitest tests. Coverage includes exact amounts, route validation, distinct receivers, query parameters, response identity checks, HTTP failures, request/body deadlines, rates, expiry, and text/JSON CLI output. Success fixtures are [explicitly synthetic](tests/fixtures/bebop/README.md); one provider-error fixture is a dated live observation. Default checks block accidental fetches and require no network or credentials. Retry waits use simulated time. `npm test` builds before testing; `npm run format` applies formatting.
 
-Supported assets remain USDC and WETH on Ethereum and Base. Native ETH, USDT, cross-chain routes, automatic retries, `Retry-After` handling, detailed no-liquidity classification, an offline demo command, CI, LI.FI discovery, and size comparisons remain future work. Raw-response export is also deferred. Anonymous pricing, access, and quote availability may change. See [the five-goal plan](DEVELOPMENT_PLAN.md).
+[GitHub Actions](.github/workflows/ci.yml) is configured for pushes, pull requests, and manual runs. It installs from the lockfile on Node 24, runs the offline check suite, and exercises help and the demo. It does not call Bebop or require an API key. The workflow is configured locally; a hosted run is not claimed until the repository is pushed and Actions completes.
+
+Supported assets remain USDC and WETH on Ethereum and Base. Native ETH, USDT, cross-chain routes, broader provider-specific no-liquidity classification, LI.FI discovery, and size comparisons remain future work. Raw-response export is also deferred. Anonymous pricing, access, and quote availability may change. See [the five-goal plan](DEVELOPMENT_PLAN.md).
 
 The project never requests private keys, signs messages or transactions, submits approvals, broadcasts transactions, or settles trades.
 

@@ -86,4 +86,52 @@ describe('quote CLI through real client with mocked HTTP', () => {
       httpStatus: 403,
     });
   });
+  it.each([false, true])(
+    'shows retry guidance in text/JSON mode: %s',
+    async (json) => {
+      const stdout = vi.fn();
+      const stderr = vi.fn();
+      const provider = new BebopClient({
+        fetch: async () =>
+          new Response('', { status: 429, headers: { 'Retry-After': '60' } }),
+      });
+      const args = [
+        'quote',
+        '--intent',
+        'examples/base-usdc-weth.json',
+        ...(json ? ['--json'] : []),
+      ];
+      expect(await runCli(args, { stdout, stderr, provider })).toBe(1);
+      expect(stdout).not.toHaveBeenCalled();
+      const output = stderr.mock.calls[0]![0];
+      if (json)
+        expect(JSON.parse(output).error).toMatchObject({
+          code: 'RATE_LIMITED',
+          attempts: 1,
+          retryAfterMs: 60000,
+        });
+      else {
+        expect(output).toContain('Attempts: 1');
+        expect(output).toContain('at least 60 seconds');
+      }
+    },
+  );
+
+  it('propagates cancellation and returns exit 130 without networking', async () => {
+    const controller = new AbortController();
+    controller.abort();
+    const fetch = vi.fn();
+    const stderr = vi.fn();
+    const provider = new BebopClient({ fetch });
+    expect(
+      await runCli(
+        ['quote', '--intent', 'examples/base-usdc-weth.json', '--json'],
+        { provider, stderr, signal: controller.signal },
+      ),
+    ).toBe(130);
+    expect(JSON.parse(stderr.mock.calls[0]![0]).error.code).toBe(
+      'REQUEST_CANCELLED',
+    );
+    expect(fetch).not.toHaveBeenCalled();
+  });
 });

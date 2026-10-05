@@ -8,8 +8,11 @@ export class QuoteService {
     private readonly now: () => number = Date.now,
   ) {}
 
-  async quote(intent: unknown) {
+  async quote(intent: unknown, signal?: AbortSignal) {
     const request = new LiFiIntentAdapter().normalize(intent);
-    return inspectQuote(await this.provider.getQuote(request), this.now);
+    return inspectQuote(
+      await this.provider.getQuote(request, signal),
+      this.now,
+    );
   }
 }

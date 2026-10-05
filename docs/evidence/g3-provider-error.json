@@ -1,0 +1,23 @@
+{
+  "requestedAt": "2026-10-05T03:09:33.649Z",
+  "url": "https://api.bebop.xyz/pmm/ethereum/v3/quote?sell_tokens=0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48&buy_tokens=0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2&sell_amounts=1&taker_address=0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6&receiver_address=0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6&approval_type=Standard",
+  "intent": {
+    "fromChain": 1,
+    "toChain": 1,
+    "fromToken": "USDC",
+    "toToken": "WETH",
+    "amountIn": "0.000001",
+    "userAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+    "receiverAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6"
+  },
+  "authenticated": false,
+  "httpStatus": 200,
+  "contentType": "application/json",
+  "body": {
+    "error": {
+      "errorCode": 104,
+      "message": "MinSize: Request quotes over $1.",
+      "requestId": "97efbad6-24f3-44f6-8ec7-41aff8d840fe"
+    }
+  }
+}

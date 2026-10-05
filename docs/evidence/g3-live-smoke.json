@@ -1,0 +1,62 @@
+{
+  "requestedAt": "2026-10-05T05:41:16.042644+00:00",
+  "command": "npm --silent start -- quote --intent examples/base-usdc-weth.json --json",
+  "purpose": "One live regression check after replacing the HTTP transport; no transaction signing/submission.",
+  "exitCode": 0,
+  "result": {
+    "provider": "bebop",
+    "provenance": "live",
+    "chainId": 8453,
+    "network": "base",
+    "requestId": "04c61f4f-f721-480c-8761-e9216d7e31ca",
+    "quoteId": "121-154487267598262562376561501392535072671",
+    "retrievedAt": "2026-10-05T05:41:18.477Z",
+    "inspectedAt": "2026-10-05T05:41:18.480Z",
+    "takerAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+    "receiverAddress": "0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6",
+    "sellToken": {
+      "chainId": 8453,
+      "symbol": "USDC",
+      "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "decimals": 6
+    },
+    "sellAmountBaseUnits": "100000000",
+    "sellAmount": "100",
+    "buyToken": {
+      "chainId": 8453,
+      "symbol": "WETH",
+      "address": "0x4200000000000000000000000000000000000006",
+      "decimals": 18
+    },
+    "buyAmountBaseUnits": "36626741132522099",
+    "buyAmount": "0.036626741132522099",
+    "effectivePrice": {
+      "value": "0.00036626741132522",
+      "numerator": "36626741132522099000000",
+      "denominator": "100000000000000000000000000",
+      "units": "WETH per USDC",
+      "displayDecimals": 18,
+      "rounding": "down"
+    },
+    "expiry": {
+      "unix": 1791178887,
+      "utc": "2026-10-05T05:41:27.000Z",
+      "remainingSeconds": 8,
+      "expired": false
+    },
+    "approvalTarget": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+    "settlementAddress": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+    "transaction": {
+      "target": "0xBeb0009ACa35087ce7cCF11637E24dd1Aad3bf2A",
+      "valueBaseUnits": "0",
+      "valueNative": "0",
+      "nativeSymbol": "ETH",
+      "hasCalldata": true
+    },
+    "hasCalldata": true,
+    "warnings": [],
+    "providerWarnings": [],
+    "summary": "Quoted rate: 0.00036626741132522 WETH per USDC (excluding separate network fees). Quote expires in 8 seconds. Transaction calldata is present. Balances, allowances, gas, contract identity, and execution success have not been verified."
+  },
+  "note": "Historical live observation after the G3 transport changes. Expiry and remaining-time fields describe inspection time, not the time this file is read. This saved quote is not a fresh executable offer."
+}

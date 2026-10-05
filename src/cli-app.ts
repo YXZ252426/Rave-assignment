@@ -3,6 +3,7 @@ import { Command, CommanderError } from 'commander';
 import { LiFiIntentAdapter } from './adapters/lifi-intent-adapter.js';
 import { BebopClient, type QuoteProvider } from './clients/bebop-client.js';
 import { readBebopApiKey } from './config/environment.js';
+import { createDemoReport } from './demo/demo.js';
 import { ExplorerError } from './domain/errors.js';
 import { renderNormalizedRequest, renderQuote } from './presentation/text.js';
 import { QuoteService } from './services/quote-service.js';
@@ -13,6 +14,7 @@ interface CliDependencies {
   provider?: QuoteProvider;
   now?: () => number;
   env?: NodeJS.ProcessEnv;
+  signal?: AbortSignal;
 }
 interface IntentOptions {
   intent: string;
@@ -60,7 +62,7 @@ export async function runCli(
     .description(
       'Read-only intent normalization and Bebop RFQ quote inspection.',
     )
-    .version('0.2.0')
+    .version('0.3.0')
     .showSuggestionAfterError(false)
     .exitOverride()
     .configureOutput({ writeOut: stdout, writeErr: () => {} });
@@ -103,10 +105,26 @@ export async function runCli(
       }
       const report = await new QuoteService(provider, dependencies.now).quote(
         input,
+        dependencies.signal,
       );
       stdout(
         (options.json ? JSON.stringify(report, null, 2) : renderQuote(report)) +
           '\n',
+      );
+    });
+
+  program
+    .command('demo')
+    .description(
+      'Show an expired synthetic quote offline, with a fixed historical clock',
+    )
+    .option('--json', 'Output the labeled MOCK example as JSON')
+    .action((options: { json?: boolean }) => {
+      const report = createDemoReport();
+      stdout(
+        (options.json
+          ? JSON.stringify(report, null, 2)
+          : report.demo.note + '\n' + renderQuote(report)) + '\n',
       );
     });
 
@@ -131,10 +149,24 @@ export async function runCli(
             message: failure.message,
             field: failure.field,
             httpStatus: failure.httpStatus,
+            attempts: failure.attempts,
+            retryable: failure.retryable,
+            retryAfterMs: failure.retryAfterMs,
           },
         })
       : `${failure.code}${failure.field ? ` [${failure.field}]` : ''}: ${failure.message}`;
-    stderr(output + '\n');
+    const guidance = args.includes('--json')
+      ? ''
+      : [
+          failure.attempts !== undefined
+            ? ` Attempts: ${failure.attempts}.`
+            : '',
+          failure.retryAfterMs !== undefined
+            ? ` Provider requests a wait of at least ${Math.ceil(failure.retryAfterMs / 1000)} seconds before another attempt.`
+            : '',
+        ].join('');
+    stderr(output.replace(/\u001b/g, '') + guidance + '\n');
+    if (failure.code === 'REQUEST_CANCELLED') return 130;
     return failure.code === 'INVALID_INPUT' ||
       failure.code === 'UNSUPPORTED_ROUTE'
       ? 2

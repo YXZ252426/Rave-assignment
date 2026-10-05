@@ -2,7 +2,7 @@
 
 Date: 2026-10-05
 
-Status: G1 and G2 complete and verified on 2026-10-05. G3-G5 pending.
+Status: G1-G3 complete and verified on 2026-10-05. G4-G5 pending. Hosted CI execution awaits a repository push/run.
 
 Default implementation: TypeScript CLI on Node.js 24 LTS (24.5+ required for environment proxy support)
 
@@ -49,7 +49,7 @@ The assignment uses a simplified LI.FI-inspired input model. It does not require
 
 | Item                         | Current evidence                                                                                                  | Implementation consequence                                        |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Local repository             | G1 and G2 implementation, tests, examples, and documentation complete                                             | C1 and C2 record separate working capabilities                    |
+| Local repository             | G1-G3 implementation, tests, examples, demo, CI configuration, and documentation complete                         | C1-C3 record separate working capabilities                        |
 | LI.FI supported chains       | A direct request returned HTTP 200 and included Ethereum and Base                                                 | Use this endpoint for the discovery bonus                         |
 | Bebop quote access           | G2 Node client obtained real Ethereum and Base quotes; G1 403 failures remain historical                          | Two-chain live acceptance achieved; record timestamps and expiry  |
 | Bebop authentication         | API Reference marks Bearer authorization as required; Quickstart describes restricted unauthenticated demo access | Support optional API-key configuration and verify actual behavior |
@@ -95,7 +95,7 @@ Pin compatible dependency versions during scaffolding. Node.js 24 is listed as L
 
 ### Proposed commands
 
-The `normalize` and `quote` commands and offline checks are implemented. Comparison, discovery, and demo commands below remain planned interfaces:
+The `normalize` and `quote` commands and offline checks are implemented. The offline `demo` command is implemented in G3. Comparison and discovery below remain planned interfaces:
 
 ```bash
 npm ci
@@ -273,7 +273,7 @@ Use the provider's absolute expiry value rather than inventing a fixed quote lif
 
 ## 7. Error and retry policy
 
-This is the final target policy, implemented primarily in G3 after the live happy path works in G2. G1 still rejects invalid intents before networking. G2 includes a bounded request timeout, basic HTTP failure reporting, and the response checks needed to avoid displaying an incorrect quote; it does not wait for the full retry and error taxonomy below.
+G3 implements this policy after the G2 live happy path. The verified `NO_QUOTE` case currently covers Bebop minimum-size rejection; other provider-specific codes are left unclassified until verified. G1 still rejects invalid intents before networking. G2 includes a bounded request timeout, basic HTTP failure reporting, and the response checks needed to avoid displaying an incorrect quote; it does not wait for the full retry and error taxonomy below.
 
 | Error code                  | Trigger                                                  | Behavior                                                        |
 | --------------------------- | -------------------------------------------------------- | --------------------------------------------------------------- |
@@ -287,7 +287,7 @@ This is the final target policy, implemented primarily in G3 after the live happ
 | `UPSTREAM_FAILURE`          | Transport errors or HTTP 5xx                             | Retry only eligible transient failures                          |
 | `INVALID_UPSTREAM_RESPONSE` | HTML success body, invalid JSON/schema, mismatched quote | Explain provider-response failure without dumping unsafe output |
 
-Proposed defaults: 10-second per-attempt timeout, 20-second total request budget, and at most two retries after the first attempt. Retry idempotent quote/discovery GETs only for 429 and selected transient failures. Honor `Retry-After` in seconds or HTTP-date form; if the requested wait exceeds the remaining budget, return guidance instead of retrying early. Otherwise use bounded exponential backoff with jitter.
+Implemented defaults: 10-second per-attempt timeout, 20-second total request budget, and at most two retries after the first attempt. Retry idempotent quote/discovery GETs only for 429 and selected transient failures. Honor `Retry-After` in seconds or HTTP-date form; if the requested wait exceeds the remaining budget, return guidance instead of retrying early. Otherwise use bounded exponential backoff with jitter.
 
 Do not retry invalid input, authentication failure, edge blocking, response mismatch, or a known no-liquidity result. Keep request headers and keys out of logs. Bound and sanitize any provider message included in terminal output. Test cancellation and clear timers after completion.
 
@@ -320,7 +320,7 @@ Generate a short explanation from validated fields, without an LLM dependency. I
 
 The implementation is fully AI-native: work proceeds in substantial end-to-end increments, with runnable behavior and evidence at each checkpoint. Scaffolding, types, client code, presentation, and relevant tests belong together when they serve the same goal. Individual files or architectural layers do not need separate milestones or commits.
 
-**G1 and G2 are complete.** G3-G5 remain pending. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
+**G1-G3 are complete.** G4-G5 remain pending. CI is configured and its steps passed locally; a hosted Actions run has not been claimed. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
 
 G1 acceptance evidence (2026-10-05):
 
@@ -378,6 +378,8 @@ Defer comprehensive error classification, automatic retries, extensive malformed
 If access is blocked, retain the implemented pipeline and record the exact failure. Fixture-based development and G3-G5 preparation may continue, but G2 remains incomplete until both chains have real quote evidence. A commit can preserve useful partial work; it must not be presented as proof that the milestone passed.
 
 ### G3 — Handle failures and establish reliability
+
+**Completed on 2026-10-05.** A clean copy passed installation, formatting, type checking, build, and **183 tests across 11 files**. Help, guarded offline JSON demo, and `npm run demo` passed. CI YAML was validated and the equivalent commands ran locally; hosted CI is pending publication. One live Base regression quote succeeded through the new HTTP layer. See [reliability notes](docs/reliability.md).
 
 **User outcome:** understand why a quote failed and trust the tool to handle common failures without hanging or misrepresenting results.
 
@@ -449,7 +451,7 @@ Default to **five substantial commits, one per goal**. Commit boundaries follow 
 | C4     | `feat: add LI.FI discovery and trade-size comparisons`            | LI.FI client and command, compare service and presentation, bonus tests and usage examples                                                  | Real discovery works; bounded comparisons handle mixed results and expiry correctly                  |
 | C5     | `docs: package quote explorer setup demo and submission evidence` | Final README, AI notes, integration explanations, live verification, screenshot/recording, submission links                                 | Fresh-checkout instructions work; final acceptance checklist has authentic evidence                  |
 
-These are planned commit messages, not existing Git history. C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3-C5 remain planned; G3-G5 have not started.
+These are planned commit messages, not existing Git history. C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3 records G3 reliability, demo, and CI. C4-C5 remain planned; G4-G5 have not started.
 
 Working conventions:
 
@@ -513,10 +515,10 @@ Save a real terminal screenshot or short screen recording under `docs/demo/`. A 
 - [x] Adapter and provider-client responsibilities are separate.
 - [x] Every required quote and transaction field is displayed.
 - [x] Amounts and rates avoid unsafe floating-point conversion.
-- [ ] Invalid inputs, unsupported routes, upstream failures, and rate limits are handled.
+- [x] Invalid inputs, unsupported routes, upstream failures, and rate limits are handled.
 - [ ] No private-key, signing, approval-submission, or broadcast functionality exists.
 - [ ] Relevant mocked tests and CI checks pass.
-- [ ] Live and mock results are unmistakably different.
+- [x] Live and mock results are unmistakably different.
 - [ ] README and AI usage notes reflect the actual implementation.
 - [ ] Screenshot or recording demonstrates the implemented CLI.
 - [ ] Repository is available on GitHub and its URL is included in the submission.
@@ -534,4 +536,4 @@ Save a real terminal screenshot or short screen recording under `docs/demo/`. A 
 | Scope expands into a trading system            | Keep quote-only boundary and explicit exclusions                               | Defer execution and frontend extras                      |
 | CI appears successful while live API is broken | Separate offline checks from manual live acceptance                            | Submission requires both forms of evidence               |
 
-G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. The next goal is G3: expand error handling and retry behavior, add the explicit offline demo, and configure CI. Preserve dated G1 access failures alongside the successful G2 observations.
+G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. G3 adds bounded error handling/retries, the explicit offline demo, and CI configuration. The next goal is G4: LI.FI chain discovery and trade-size comparison. Preserve dated G1 access failures alongside the successful G2 observations.

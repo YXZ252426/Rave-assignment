@@ -26,3 +26,13 @@ Unlike the G1 probes, real Node-client requests succeeded on both chains through
 The synthetic test data was informed by the official response contract and checked against the fields consumed by successful live requests. It is not presented as captured live payloads. No raw calldata, credential, signature, or transaction submission is part of the saved quote reports.
 
 Final G2 validation passed formatting, type checking, compilation, and all 133 tests across 8 files. The completion status is recorded in `DEVELOPMENT_PLAN.md`. Node 24.5+ is now required because startup uses the documented built-in environment proxy flag.
+
+## G3 work and evidence
+
+Codex implemented bounded retries, attempt/total deadlines, cancellation, response-size limits, structured retry diagnostics, an offline synthetic demo, and the CI workflow. The minimum-size error mapping uses one actual Bebop error response, saved with its request and timestamp; broader error-code meanings were not guessed.
+
+Retry and deadline behavior is tested with injected transport and simulated time, without repeatedly calling the live API. The demo is explicitly mocked and expired. CI was configured with official action versions pinned to commit hashes; a hosted Actions result is not claimed from local tests.
+
+Work briefly paused because automatic approval review could not run after a service usage limit. The write was not executed; following the user's instruction to continue, the approval service recovered and work resumed. The resumed shell used the existing nvm Node 24.21.0 installation after its default PATH no longer contained npm. These are development-environment observations, not application setup requirements.
+
+Final G3 validation: clean installation, formatting, type checking, build, and 183 tests across 11 files passed on Node 24.21.0. Help, guarded JSON demo, and one-command demo passed; workflow YAML structure was checked. One live Base regression quote succeeded after the HTTP-layer change. Hosted CI execution remains unverified until a push/run occurs.

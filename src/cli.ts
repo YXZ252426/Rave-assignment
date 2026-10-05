@@ -1,3 +1,12 @@
 import { runCli } from './cli-app.js';
 
-process.exitCode = await runCli(process.argv.slice(2));
+const controller = new AbortController();
+const cancel = () => controller.abort();
+process.once('SIGINT', cancel);
+try {
+  process.exitCode = await runCli(process.argv.slice(2), {
+    signal: controller.signal,
+  });
+} finally {
+  process.removeListener('SIGINT', cancel);
+}

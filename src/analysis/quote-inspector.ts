@@ -35,6 +35,7 @@ export function inspectQuote(
   );
   const price = effectivePrice(quote);
   const warnings: string[] = [];
+  if (quote.provenance === 'mock') warnings.push('mock_quote');
   if (expired) warnings.push('expired');
   if (!quote.transaction || !hasCalldata)
     warnings.push('missing_transaction_data');
@@ -52,6 +53,7 @@ export function inspectQuote(
       }
     : null;
   const summary = [
+    quote.provenance === 'mock' ? 'Synthetic example; not a live quote.' : '',
     `Quoted rate: ${price.value === '0' ? '<0.000000000000000001' : price.value} ${price.units} (excluding separate network fees).`,
     expired
       ? 'Quote is expired.'

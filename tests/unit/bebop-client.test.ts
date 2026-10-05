@@ -74,7 +74,9 @@ describe('Bebop client', () => {
     const fetch = vi.fn(
       async () => new Response('<html>secret-reflection</html>', { status }),
     );
-    const pending = new BebopClient({ fetch }).getQuote(requestFor());
+    const pending = new BebopClient({ fetch, maxRetries: 0 }).getQuote(
+      requestFor(),
+    );
     await expect(pending).rejects.toMatchObject({ code, httpStatus: status });
     await expect(pending).rejects.not.toThrow('secret-reflection');
     expect(fetch).toHaveBeenCalledOnce();
@@ -92,9 +94,11 @@ describe('Bebop client', () => {
           );
         }),
     );
-    const promise = new BebopClient({ fetch, timeoutMs: 100 }).getQuote(
-      requestFor(),
-    );
+    const promise = new BebopClient({
+      fetch,
+      timeoutMs: 100,
+      maxRetries: 0,
+    }).getQuote(requestFor());
     const assertion = expect(promise).rejects.toMatchObject({
       code: 'UPSTREAM_TIMEOUT',
     });
@@ -117,9 +121,11 @@ describe('Bebop client', () => {
           },
         }),
       );
-    const promise = new BebopClient({ fetch, timeoutMs: 100 }).getQuote(
-      requestFor(),
-    );
+    const promise = new BebopClient({
+      fetch,
+      timeoutMs: 100,
+      maxRetries: 0,
+    }).getQuote(requestFor());
     const assertion = expect(promise).rejects.toMatchObject({
       code: 'UPSTREAM_TIMEOUT',
     });

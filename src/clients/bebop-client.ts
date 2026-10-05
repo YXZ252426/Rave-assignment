@@ -4,17 +4,19 @@ import type {
   NormalizedQuoteRequest,
   QuoteProvenance,
 } from '../domain/types.js';
+import { JsonHttpClient, type HttpOptions } from './http.js';
+import { checkBebopError } from './bebop-errors.js';
 import { normalizeBebopQuote } from './bebop-schema.js';
 
-export type FetchLike = (url: URL, init: RequestInit) => Promise<Response>;
+export type { FetchLike } from './http.js';
 export interface QuoteProvider {
-  getQuote(request: NormalizedQuoteRequest): Promise<NormalizedQuote>;
+  getQuote(
+    request: NormalizedQuoteRequest,
+    signal?: AbortSignal,
+  ): Promise<NormalizedQuote>;
 }
-interface BebopClientOptions {
-  fetch?: FetchLike;
-  now?: () => number;
+interface BebopClientOptions extends HttpOptions {
   apiKey?: string;
-  timeoutMs?: number;
   provenance?: QuoteProvenance;
 }
 
@@ -32,118 +34,42 @@ export function buildQuoteUrl(request: NormalizedQuoteRequest): URL {
 }
 
 export class BebopClient implements QuoteProvider {
-  private readonly fetch: FetchLike;
+  private readonly http: JsonHttpClient;
   private readonly now: () => number;
-  private readonly timeoutMs: number;
   private readonly apiKey: string | undefined;
   private readonly provenance: QuoteProvenance;
 
   constructor(options: BebopClientOptions = {}) {
-    this.fetch = options.fetch ?? globalThis.fetch;
+    this.http = new JsonHttpClient(options);
     this.now = options.now ?? Date.now;
-    this.timeoutMs = options.timeoutMs ?? 10000;
     this.apiKey = options.apiKey?.trim() || undefined;
     this.provenance = options.provenance ?? 'live';
-    if (
-      !Number.isSafeInteger(this.timeoutMs) ||
-      this.timeoutMs <= 0 ||
-      this.timeoutMs > 30000
-    )
-      throw new Error('Invalid request timeout.');
-    if (this.apiKey && /[\r\n]/.test(this.apiKey))
+    if (this.apiKey && /[^\x21-\x7e]/.test(this.apiKey))
       throw new ExplorerError(
         'INVALID_INPUT',
-        'API key must not contain line breaks.',
+        'API key must contain printable non-space ASCII characters.',
         'BEBOP_API_KEY',
       );
   }
 
-  async getQuote(request: NormalizedQuoteRequest): Promise<NormalizedQuote> {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), this.timeoutMs);
+  async getQuote(
+    request: NormalizedQuoteRequest,
+    signal?: AbortSignal,
+  ): Promise<NormalizedQuote> {
     const headers: Record<string, string> = { Accept: 'application/json' };
     if (this.apiKey) headers.Authorization = `Bearer ${this.apiKey}`;
-    try {
-      const response = await this.fetch(buildQuoteUrl(request), {
-        method: 'GET',
-        headers,
-        signal: controller.signal,
-        redirect: 'error',
-      });
-      if (!response.ok) {
-        // Do not print untrusted error bodies or infer authentication from a 403.
-        await response.body?.cancel();
-        if (response.status === 401)
-          throw new ExplorerError(
-            'UPSTREAM_AUTH_ERROR',
-            'Bebop rejected authentication (HTTP 401). Check BEBOP_API_KEY.',
-            undefined,
-            401,
-          );
-        if (response.status === 403)
-          throw new ExplorerError(
-            'UPSTREAM_ACCESS_DENIED',
-            'Bebop access denied (HTTP 403). This may be an edge/access-policy rejection; credentials are not confirmed as the cause.',
-            undefined,
-            403,
-          );
-        if (response.status === 429)
-          throw new ExplorerError(
-            'RATE_LIMITED',
-            'Bebop rate limit reached (HTTP 429). No automatic retry was attempted.',
-            undefined,
-            429,
-          );
-        throw new ExplorerError(
-          'UPSTREAM_FAILURE',
-          `Bebop request failed (HTTP ${response.status}).`,
-          undefined,
-          response.status,
+    return this.http.get(buildQuoteUrl(request), {
+      headers,
+      ...(signal ? { signal } : {}),
+      parse: (body) => {
+        checkBebopError(body);
+        return normalizeBebopQuote(
+          body,
+          request,
+          new Date(this.now()).toISOString(),
+          this.provenance,
         );
-      }
-      let body: unknown;
-      try {
-        body = await response.json();
-      } catch {
-        if (controller.signal.aborted)
-          throw new ExplorerError(
-            'UPSTREAM_TIMEOUT',
-            'Bebop request exceeded its deadline.',
-          );
-        throw new ExplorerError(
-          'INVALID_UPSTREAM_RESPONSE',
-          'Bebop returned a response that is not valid JSON.',
-        );
-      }
-      if (
-        body &&
-        typeof body === 'object' &&
-        ('error' in body || ('status' in body && body.status !== 'SIG_SUCCESS'))
-      ) {
-        throw new ExplorerError(
-          'UPSTREAM_FAILURE',
-          'Bebop returned a provider error or a non-success quote status.',
-        );
-      }
-      return normalizeBebopQuote(
-        body,
-        request,
-        new Date(this.now()).toISOString(),
-        this.provenance,
-      );
-    } catch (error) {
-      if (error instanceof ExplorerError) throw error;
-      if (controller.signal.aborted)
-        throw new ExplorerError(
-          'UPSTREAM_TIMEOUT',
-          'Bebop request exceeded its deadline.',
-        );
-      throw new ExplorerError(
-        'UPSTREAM_FAILURE',
-        'Could not reach Bebop. Check network access and proxy configuration.',
-      );
-    } finally {
-      clearTimeout(timer);
-    }
+      },
+    });
   }
 }

@@ -18,7 +18,8 @@ export function renderNormalizedRequest(
 }
 
 function safeText(value: unknown): string {
-  const text = typeof value === 'string' ? value : JSON.stringify(value);
+  const text =
+    typeof value === 'string' ? value : (JSON.stringify(value) ?? 'null');
   return text
     .replace(/[\u0000-\u001f\u007f-\u009f\u2028\u2029]/g, ' ')
     .slice(0, 512);
@@ -30,6 +31,7 @@ export function renderQuote(report: QuoteReport): string {
     `Chain: ${report.network} (${report.chainId})`,
     `Quote ID: ${safeText(report.quoteId)}`,
     `Retrieved: ${report.retrievedAt}`,
+    `Inspected: ${report.inspectedAt}`,
     `Sell: ${report.sellAmount} ${report.sellToken.symbol} (${report.sellToken.address})`,
     `Sell amount (base units): ${report.sellAmountBaseUnits}`,
     `Buy: ${report.buyAmount} ${report.buyToken.symbol} (${report.buyToken.address})`,
