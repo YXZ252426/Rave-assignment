@@ -39,7 +39,7 @@ If authorized Bebop API credentials are available, configure `BEBOP_API_KEY` usi
 
 On 2026-10-05, after reviewing the access result, the author reported that the tool runs successfully in their environment and asked to publish the repository. This is a user-reported confirmation; no new API response, credential configuration, or cause of the earlier HTTP 403 was supplied. Earlier captured successes and failures remain unchanged.
 
-Publication target: [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment), branch `main`. The initial zero-branch and zero-workflow observations in the table above describe the state before publication. Hosted verification is available on the [Actions page](https://github.com/YXZ252426/Rave-assignment/actions); its outcome will be recorded after the first run.
+Publication target: [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment), branch `main`. The initial zero-branch and zero-workflow observations in the table above describe the state before publication. The complete local history was pushed to `main` at commit `a02af85`, using the author's existing SSH authentication. The [first hosted run](https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441) completed successfully at 2026-10-05 09:37:36 UTC: installation, the complete check suite, CLI help, and the guarded offline demo all passed. The local branch tracks `origin/main`. [Publication evidence](evidence/github-publication.json) records that first verified revision; later documentation updates have their own Actions runs.
 
 ## Remaining author task
 

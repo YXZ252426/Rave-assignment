@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/YXZ252426/Rave-assignment",
+  "branch": "main",
+  "firstPublishedCommit": "a02af85e8253d5e9009b7c4c0d61141c79b4341d",
+  "transport": "SSH using existing author authentication",
+  "workflow": {
+    "name": "Offline verification",
+    "runId": 37291242441,
+    "url": "https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "updatedAt": "2026-10-05T09:37:36Z",
+    "verifiedSteps": [
+      "checkout",
+      "setup-node",
+      "npm ci",
+      "npm run check",
+      "CLI help",
+      "network-guarded offline JSON demo"
+    ]
+  },
+  "note": "Records the first verified published revision. Subsequent documentation commits have separate workflow runs. Video remains author-owned; no additional live RFQ or transaction execution is claimed."
+}

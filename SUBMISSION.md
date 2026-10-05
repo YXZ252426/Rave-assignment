@@ -2,7 +2,7 @@
 
 ## Delivery status
 
-The implementation and documentation are ready for code review in [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment). The author has confirmed that the tool runs successfully in their environment and authorized publication. The author will attach the video separately. Hosted verification is tracked in [GitHub Actions](https://github.com/YXZ252426/Rave-assignment/actions).
+The implementation and documentation are ready for code review in [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment). The author has confirmed that the tool runs successfully in their environment and authorized publication. The author will attach the video separately. The [first hosted verification](https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441) passed for commit `a02af85`; subsequent runs are listed in [GitHub Actions](https://github.com/YXZ252426/Rave-assignment/actions).
 
 **Access evidence:** captured live quotes succeeded earlier on both chains. A later anonymous check returned HTTP 403 in the development environment; the author subsequently reported successful operation in their own environment. That confirmation is user-reported, not an additional captured API response. See the [readiness record](docs/submission-readiness.md).
 

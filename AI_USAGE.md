@@ -64,3 +64,5 @@ The complete local check suite again passed with 244 tests across 14 files. Two 
 ## Publication authorization
 
 The author subsequently reported successful operation in their own environment and explicitly authorized publication to `YXZ252426/Rave-assignment`. Codex updated the readiness wording to distinguish that user report from captured API evidence, retained the historical 403 result, and prepared the local history for the remote `main` branch. No new live quote, code change, or explanation for the environment-specific access result is inferred from the author's message. Video recording remains the author's task.
+
+The initial HTTPS push could not authenticate because the terminal had no HTTPS credentials. Existing SSH authentication succeeded for the author's GitHub account, and Codex pushed the complete local history to `main` with upstream tracking. The [first hosted Actions run](https://github.com/YXZ252426/Rave-assignment/actions/runs/37291242441) passed for commit `a02af85` on 2026-10-05 at 09:37:36 UTC. This establishes hosted offline verification; it does not make a new live RFQ or on-chain execution claim.
