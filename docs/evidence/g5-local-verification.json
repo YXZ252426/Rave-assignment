@@ -1,0 +1,92 @@
+{
+  "note": "Fresh temporary source snapshot verification. No .env, generated build, node_modules, or Git metadata was copied. No live RFQ or LI.FI requests were made. Hosted CI was not run.",
+  "applicationCommit": "7bc7ab179de58edb73bf63d045602303852d1530",
+  "nodeVersion": "v24.21.0",
+  "npmVersion": "11.19.0",
+  "startedAt": "2026-10-05T07:10:34.192238+00:00",
+  "checks": [
+    {
+      "command": ["npm", "ci"],
+      "startedAt": "2026-10-05T07:10:34.192251+00:00",
+      "completedAt": "2026-10-05T07:10:35.876716+00:00",
+      "exitCode": 0,
+      "stdout": "\nadded 55 packages, and audited 56 packages in 2s\n\n24 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n",
+      "stderr": ""
+    },
+    {
+      "command": ["npm", "run", "check"],
+      "startedAt": "2026-10-05T07:10:35.876749+00:00",
+      "completedAt": "2026-10-05T07:10:39.346036+00:00",
+      "exitCode": 0,
+      "stdout": "\n> intent-to-rfq-quote-explorer@0.4.0 check\n> npm run format:check && npm run typecheck && npm test\n\n\n> intent-to-rfq-quote-explorer@0.4.0 format:check\n> prettier --check .\n\nChecking formatting...\nAll matched files use Prettier code style!\n\n> intent-to-rfq-quote-explorer@0.4.0 typecheck\n> tsc -p tsconfig.test.json --noEmit\n\n\n> intent-to-rfq-quote-explorer@0.4.0 pretest\n> npm run build --silent\n\n\n> intent-to-rfq-quote-explorer@0.4.0 test\n> vitest run\n\n\n RUN  v5.0.3 /tmp/rfq-g5-clean-im9z77g4\n\n\n Test Files  14 passed (14)\n      Tests  244 passed (244)\n   Start at  15:10:37\n   Duration  1.69s (import 45%, tests 37%, transform 15%, setup 2%, worker 1%)\n\n",
+      "stderr": ""
+    },
+    {
+      "command": ["npm", "--silent", "start", "--", "--help"],
+      "startedAt": "2026-10-05T07:10:39.346079+00:00",
+      "completedAt": "2026-10-05T07:10:39.865483+00:00",
+      "exitCode": 0,
+      "stdout": "Usage: intent-rfq [options] [command]\n\nRead-only intent normalization and Bebop RFQ quote inspection.\n\nOptions:\n  -V, --version        output the version number\n  -h, --help           display help for command\n\nCommands:\n  normalize [options]  Validate an intent without networking\n  quote [options]      Request and inspect a Bebop RFQ quote (no signing or\n                       submission)\n  chains [options]     Discover LI.FI Intents chains and the local supported\n                       intersection\n  compare [options]    Compare sequential Bebop quotes for one to five trade\n                       sizes\n  demo [options]       Show an expired synthetic quote offline, with a fixed\n                       historical clock\n  help [command]       display help for command\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--import",
+        "./tests/helpers/no-network.mjs",
+        "dist/cli.js",
+        "normalize",
+        "--intent",
+        "examples/ethereum-usdc-weth.json"
+      ],
+      "startedAt": "2026-10-05T07:10:39.865520+00:00",
+      "completedAt": "2026-10-05T07:10:40.048527+00:00",
+      "exitCode": 0,
+      "stdout": "Normalized quote request (offline; no quote requested)\nChain: ethereum (1)\nSell token: USDC (0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48, 6 decimals)\nBuy token: WETH (0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2, 18 decimals)\nSell amount: 100.25 USDC\nSell amount (base units): 100250000\nTaker: 0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6\nReceiver: 0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--import",
+        "./tests/helpers/no-network.mjs",
+        "dist/cli.js",
+        "normalize",
+        "--intent",
+        "examples/base-usdc-weth.json",
+        "--json"
+      ],
+      "startedAt": "2026-10-05T07:10:40.048552+00:00",
+      "completedAt": "2026-10-05T07:10:40.230585+00:00",
+      "exitCode": 0,
+      "stdout": "{\n  \"chainId\": 8453,\n  \"network\": \"base\",\n  \"sellToken\": {\n    \"chainId\": 8453,\n    \"symbol\": \"USDC\",\n    \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n    \"decimals\": 6\n  },\n  \"buyToken\": {\n    \"chainId\": 8453,\n    \"symbol\": \"WETH\",\n    \"address\": \"0x4200000000000000000000000000000000000006\",\n    \"decimals\": 18\n  },\n  \"sellAmountBaseUnits\": \"100000000\",\n  \"takerAddress\": \"0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6\",\n  \"receiverAddress\": \"0x5Bad996643a924De21b6b2875c85C33F3c5bBcB6\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": ["npm", "run", "demo"],
+      "startedAt": "2026-10-05T07:10:40.230609+00:00",
+      "completedAt": "2026-10-05T07:10:40.726934+00:00",
+      "exitCode": 0,
+      "stdout": "\n> intent-to-rfq-quote-explorer@0.4.0 predemo\n> npm run build --silent\n\n\n> intent-to-rfq-quote-explorer@0.4.0 demo\n> node dist/cli.js demo\n\nOFFLINE MOCK. Times are fixed for reproducibility; this example is expired and cannot be executed.\nBebop RFQ quote (MOCK)\nChain: base (8453)\nQuote ID: mock-demo-quote\nRetrieved: 2026-10-05T02:50:00.000Z\nInspected: 2026-10-05T02:52:00.000Z\nSell: 100 USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)\nSell amount (base units): 100000000\nBuy: 0.04 WETH (0x4200000000000000000000000000000000000006)\nBuy amount (base units): 40000000000000000\nEffective price: 0.0004 WETH per USDC (18 decimals, rounded down)\nExpiry: 2026-10-05T02:51:00.000Z (EXPIRED)\nTaker: 0x1111111111111111111111111111111111111111\nReceiver: 0x2222222222222222222222222222222222222222\nApproval target: 0x3333333333333333333333333333333333333333\nSettlement address: 0x4444444444444444444444444444444444444444\nTransaction target: 0x5555555555555555555555555555555555555555\nTransaction value: 0 wei (0 ETH); excludes gas fee\nCalldata present: yes\nWarnings: mock_quote, expired, provider_warnings\nProvider warning: {\"code\":\"MOCK\",\"message\":\"Synthetic amounts, contract addresses, and calldata; not an executable quote.\"}\nAnalysis: Synthetic example; not a live quote. Quoted rate: 0.0004 WETH per USDC (excluding separate network fees). Quote is expired. Transaction calldata is present. 1 provider warning(s); inspect them below. Balances, allowances, gas, contract identity, and execution success have not been verified.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--import",
+        "./tests/helpers/no-network.mjs",
+        "dist/cli.js",
+        "demo",
+        "--json"
+      ],
+      "startedAt": "2026-10-05T07:10:40.726958+00:00",
+      "completedAt": "2026-10-05T07:10:40.917580+00:00",
+      "exitCode": 0,
+      "stdout": "{\n  \"provider\": \"bebop\",\n  \"provenance\": \"mock\",\n  \"chainId\": 8453,\n  \"network\": \"base\",\n  \"requestId\": \"mock-demo-request\",\n  \"quoteId\": \"mock-demo-quote\",\n  \"retrievedAt\": \"2026-10-05T02:50:00.000Z\",\n  \"inspectedAt\": \"2026-10-05T02:52:00.000Z\",\n  \"takerAddress\": \"0x1111111111111111111111111111111111111111\",\n  \"receiverAddress\": \"0x2222222222222222222222222222222222222222\",\n  \"sellToken\": {\n    \"chainId\": 8453,\n    \"symbol\": \"USDC\",\n    \"address\": \"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913\",\n    \"decimals\": 6\n  },\n  \"sellAmountBaseUnits\": \"100000000\",\n  \"sellAmount\": \"100\",\n  \"buyToken\": {\n    \"chainId\": 8453,\n    \"symbol\": \"WETH\",\n    \"address\": \"0x4200000000000000000000000000000000000006\",\n    \"decimals\": 18\n  },\n  \"buyAmountBaseUnits\": \"40000000000000000\",\n  \"buyAmount\": \"0.04\",\n  \"effectivePrice\": {\n    \"value\": \"0.0004\",\n    \"numerator\": \"40000000000000000000000\",\n    \"denominator\": \"100000000000000000000000000\",\n    \"units\": \"WETH per USDC\",\n    \"displayDecimals\": 18,\n    \"rounding\": \"down\"\n  },\n  \"expiry\": {\n    \"unix\": 1791168660,\n    \"utc\": \"2026-10-05T02:51:00.000Z\",\n    \"remainingSeconds\": 0,\n    \"expired\": true\n  },\n  \"approvalTarget\": \"0x3333333333333333333333333333333333333333\",\n  \"settlementAddress\": \"0x4444444444444444444444444444444444444444\",\n  \"transaction\": {\n    \"target\": \"0x5555555555555555555555555555555555555555\",\n    \"valueBaseUnits\": \"0\",\n    \"valueNative\": \"0\",\n    \"nativeSymbol\": \"ETH\",\n    \"hasCalldata\": true\n  },\n  \"hasCalldata\": true,\n  \"warnings\": [\n    \"mock_quote\",\n    \"expired\",\n    \"provider_warnings\"\n  ],\n  \"providerWarnings\": [\n    {\n      \"code\": \"MOCK\",\n      \"message\": \"Synthetic amounts, contract addresses, and calldata; not an executable quote.\"\n    }\n  ],\n  \"summary\": \"Synthetic example; not a live quote. Quoted rate: 0.0004 WETH per USDC (excluding separate network fees). Quote is expired. Transaction calldata is present. 1 provider warning(s); inspect them below. Balances, allowances, gas, contract identity, and execution success have not been verified.\",\n  \"demo\": {\n    \"clock\": \"fixed historical reference\",\n    \"note\": \"OFFLINE MOCK. Times are fixed for reproducibility; this example is expired and cannot be executed.\"\n  }\n}\n",
+      "stderr": ""
+    }
+  ],
+  "completedAt": "2026-10-05T07:10:40.917605+00:00",
+  "passed": true,
+  "lockfileSha256": "7d70b4fbe292ac6cf4d82181b236a19a9d1751dd9f740567135ea0dcbbd7b9b3"
+}

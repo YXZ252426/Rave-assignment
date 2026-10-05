@@ -2,7 +2,9 @@
 
 A read-only TypeScript CLI that normalizes a simplified swap intent, requests a Bebop RFQ quote, and explains its pricing, expiry, and transaction fields.
 
-**Implemented: G1–G4 — normalization, live quoting, failure handling, offline demo, CI, LI.FI chain discovery, and trade-size comparisons.** Real quotes have succeeded on Ethereum and Base; see [dated evidence](docs/live-verification.md). The offline `normalize` command remains available for inspecting inputs.
+Supports USDC and WETH on Ethereum and Base, live LI.FI chain discovery, and comparisons across up to five trade sizes. Real Bebop quotes have succeeded on both chains; see [dated evidence](docs/live-verification.md).
+
+Start with the offline example below, then request a live quote. For the assignment deliverables, short integration explanations, and remaining handoff items, see [Submission notes](SUBMISSION.md). Video recording is being handled by the author; GitHub publication is deferred at the author's request.
 
 ## Setup and run
 
@@ -10,15 +12,17 @@ Use **Node.js 24.5+ within the 24.x line** and npm. If you use nvm, run `nvm ins
 
 ```bash
 npm ci
+npm run demo
 npm start -- quote --intent examples/ethereum-usdc-weth.json
 npm start -- quote --intent examples/base-usdc-weth.json --json
 npm start -- chains --provider lifi
 npm start -- compare --intent examples/base-usdc-weth.json --amounts 100,500,1000
 npm start -- normalize --intent examples/ethereum-usdc-weth.json
 npm start -- normalize --intent examples/base-usdc-weth.json --json
-npm run demo
 npm run check
 ```
+
+Run commands from the repository root. No wallet, private key, funded account, RPC URL, or database is needed. `npm ci` requires access to the npm registry or an existing package cache; after installation, `normalize`, `demo`, and `check` run without provider access. `quote`, `compare`, and `chains` need outbound HTTPS.
 
 `npm start` builds the TypeScript source before running the CLI. To pipe JSON without npm's lifecycle banners, use:
 
@@ -30,7 +34,7 @@ After `npm run build`, you can also run `node --use-env-proxy dist/cli.js quote 
 
 ## API configuration
 
-An optional `BEBOP_API_KEY` can be provided in your shell environment or in a local `.env` file based on `.env.example`. Process environment values take precedence, including an explicitly empty value for anonymous access. Only this key is read from `.env`; its contents are not applied to the global process environment or printed.
+An optional `BEBOP_API_KEY` can be provided in your shell environment or in a local `.env` file based on `.env.example`. Copy the example to `.env` and edit it locally if needed; `.env` is gitignored. Never put a wallet private key in this file. Process environment values take precedence, including an explicitly empty value for anonymous access. Only this key is read from `.env`; its contents are not applied to the global process environment or printed.
 
 `npm start` enables Node's built-in environment proxy support. If your network uses a proxy, export its existing `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` settings in your shell before startup. The CLI does not choose a proxy or load proxy settings from `.env`.
 
@@ -137,7 +141,7 @@ The demo is synthetic and deterministic. It uses a fixed historical inspection t
 
 ## Errors and retries
 
-Single-command results go to stdout and command-level errors go to stderr. Comparison row failures are embedded in the report on stdout, preserving partial results. With `--json`, errors contain `code`, `message`, and optional `field`, `httpStatus`, `attempts`, and `retryAfterMs`, plus `retryable` (whether the failure category permits a later attempt; it does not mean the command is still retrying). Exit codes are `0` for a displayed result/help, `2` for invalid input or unsupported routes, `1` for provider or runtime failures, and `130` for a cancelled request (Ctrl-C). An expired or incomplete quote can still be displayed with exit code `0` and explicit warnings; this never asserts execution readiness.
+Single-command results go to stdout and command-level errors go to stderr. Comparison row failures are embedded in the report on stdout, preserving partial results. With `--json`, errors contain `code`, `message`, and optional `field`, `httpStatus`, `attempts`, and `retryAfterMs`, plus `retryable` (whether the failure category permits a later attempt; it does not mean the command is still retrying). Exit codes are `0` for help or successful command processing, `2` for invalid input or unsupported routes, `1` for provider or runtime failures, and `130` for a cancelled request (Ctrl-C). An expired or incomplete quote can still be displayed with exit code `0` and explicit warnings; this never asserts execution readiness.
 
 The HTTP client permits at most **3 attempts**, each capped at **10 seconds**, within a **20-second total budget** covering body reads and retry waits. It retries HTTP 408, 429, 500, 502, 503, and 504, per-attempt timeouts, and selected transient connection errors. Retry delays use bounded exponential backoff with jitter.
 
@@ -154,8 +158,23 @@ The HTTP client permits at most **3 attempts**, each capped at **10 seconds**, w
 | `UPSTREAM_FAILURE`                    | Other HTTP/transport errors or an unclassified provider error envelope                            |
 | `INVALID_UPSTREAM_RESPONSE`           | Invalid JSON, oversized body, malformed fields, or request/quote mismatch                         |
 | `REQUEST_CANCELLED`                   | Caller cancelled; pending requests/waits are stopped                                              |
+| `INTERNAL_ERROR`                      | Unexpected local failure; internal exception details are not exposed                              |
 
 The known minimum-size error was [observed live](docs/evidence/g3-provider-error.json). Other provider-specific no-liquidity codes are intentionally left unclassified until verified. See [reliability notes](docs/reliability.md) for validation scope.
+
+## Architecture
+
+| Responsibility                                            | Implementation                                                                                             |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Command parsing, input files, output and exit codes       | [`src/cli-app.ts`](src/cli-app.ts), [`src/presentation/text.ts`](src/presentation/text.ts)                 |
+| Pure intent validation and normalization                  | [`LiFiIntentAdapter`](src/adapters/lifi-intent-adapter.ts), [`domain`](src/domain), [`config`](src/config) |
+| HTTP deadlines, retries, response limits and cancellation | [`JsonHttpClient`](src/clients/http.ts)                                                                    |
+| Bebop parameters, response schema and request consistency | [`BebopClient`](src/clients/bebop-client.ts), [`response validator`](src/clients/bebop-schema.ts)          |
+| LI.FI public chain catalog                                | [`LiFiClient`](src/clients/lifi-client.ts)                                                                 |
+| Single quote and sequential comparison orchestration      | [`QuoteService`](src/services/quote-service.ts), [`CompareService`](src/services/compare-service.ts)       |
+| Exact rate, expiry, completeness and analysis             | [`QuoteInspector`](src/analysis/quote-inspector.ts)                                                        |
+
+The adapter performs no HTTP calls. Clients validate provider data before services pass it to the inspector. Transport and clocks are injectable for deterministic tests. The analysis summary is generated from validated fields; running this AI-developed project does not call an LLM or need an AI API key.
 
 ## Checks and limitations
 
@@ -167,4 +186,13 @@ Supported assets remain USDC and WETH on Ethereum and Base. Native ETH, USDT, cr
 
 The project never requests private keys, signs messages or transactions, submits approvals, broadcasts transactions, or settles trades.
 
-See [AI usage notes](AI_USAGE.md) for the development workflow and verification record.
+## Documentation and delivery
+
+- [Submission notes](SUBMISSION.md): requirement checklist, short explanations, and remaining author tasks.
+- [Integration notes](docs/api-integration.md): LI.FI/Bebop roles, lifecycle boundary, exact request mapping, and research history.
+- [Live verification](docs/live-verification.md): dated real quotes, including failed early access probes.
+- [Discovery and comparison](docs/discovery-and-comparison.md): catalog schema, ranking, partial results, and observation limits.
+- [Reliability](docs/reliability.md): retries, deadlines, cancellation, and provider errors.
+- [Local delivery verification](docs/local-verification.md): clean-install checks and their scope.
+- [AI usage notes](AI_USAGE.md): AI contributions and evidence; no independent human review is claimed.
+- [Development plan](DEVELOPMENT_PLAN.md): five milestones and their delivery status.

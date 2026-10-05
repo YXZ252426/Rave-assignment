@@ -2,7 +2,7 @@
 
 Date: 2026-10-05
 
-Status: G1-G4 complete and verified on 2026-10-05. G5 pending. Hosted CI execution awaits a repository push/run.
+Status: G1-G4 complete and verified on 2026-10-05. G5 local documentation and reproducibility verification are complete on 2026-10-05. The author will record the video; GitHub publication and hosted CI execution are deferred at the author's request.
 
 Default implementation: TypeScript CLI on Node.js 24 LTS (24.5+ required for environment proxy support)
 
@@ -320,7 +320,7 @@ Generate a short explanation from validated fields, without an LLM dependency. I
 
 The implementation is fully AI-native: work proceeds in substantial end-to-end increments, with runnable behavior and evidence at each checkpoint. Scaffolding, types, client code, presentation, and relevant tests belong together when they serve the same goal. Individual files or architectural layers do not need separate milestones or commits.
 
-**G1-G4 are complete.** G5 remains pending. CI is configured and its steps passed locally; a hosted Actions run has not been claimed. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
+**G1-G4 and the revised local G5 scope are complete.** The author owns video recording and has deferred GitHub publication. Those final assignment deliverables remain open. CI is configured and its steps passed locally; a hosted Actions run has not been claimed. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
 
 G1 acceptance evidence (2026-10-05):
 
@@ -416,9 +416,13 @@ Both bonuses are implemented. Offline tests cover malformed catalogs, record ID 
 
 ### G5 — Package a reproducible submission
 
+**Local scope completed on 2026-10-05.** A fresh source snapshot passed `npm ci`, formatting, type checking, compilation, **244 tests across 14 files**, CLI startup/help, both normalization examples, and offline text/JSON demos on Node 24.21.0. [Local verification](docs/local-verification.md) records the commands and timestamps. README, submission notes, API/lifecycle explanations, and AI notes are updated. Application code and dependencies are unchanged.
+
+**Scope revised by the author on 2026-10-05:** finish documentation and local reproducibility verification only. The author will record the video separately and requested local delivery before GitHub publication. A missing video or repository URL remains an open final assignment deliverable, but is not part of this local implementation step. [Submission notes](SUBMISSION.md) track that handoff explicitly.
+
 **User outcome:** clone the repository, follow the README, run the tool, and assess its actual behavior from a short demo.
 
-Finish README, API/data-flow explanations, execution and approval assumptions, `AI_USAGE.md`, fresh-checkout verification, final live evidence, and a real terminal screenshot or recording. Include the GitHub repository URL when the repository is published.
+Finish README, API/data-flow explanations, execution and approval assumptions, `AI_USAGE.md`, a reviewer-facing submission document, and clean-source installation verification. Preserve the existing dated two-chain live evidence. The author will add a real screenshot/recording and repository URL when those deliverables are ready.
 
 Acceptance criteria:
 
@@ -426,8 +430,8 @@ Acceptance criteria:
 - Setup, optional credentials, amount units, commands, response fields, errors, and limitations match the implementation.
 - AI usage notes accurately describe the AI-native workflow and validation actually performed.
 - Successful live quotes on both chains are documented; historical quote expiry is clear.
-- A screenshot or recording shows the real implementation and its required outputs.
-- The final checklist in Section 12 is satisfied and the submission includes a GitHub URL.
+- Local submission notes link all available evidence and clearly identify the remaining author tasks.
+- Final external handoff: the author adds a screenshot/recording and GitHub URL, then checks hosted Actions. These remain open until actually supplied.
 
 ### Execution order and checkpoints
 
@@ -445,15 +449,15 @@ Use acceptance criteria rather than a day-by-day estimate to track AI-native pro
 
 Default to **five substantial commits, one per goal**. Commit boundaries follow user-visible capabilities, not individual modules. Each commit can include implementation, relevant tests, examples, and supporting documentation across multiple layers.
 
-| Commit | Planned message                                                   | Included work                                                                                                                               | Review / verification checkpoint                                                                     |
-| ------ | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| C1     | `feat: accept and normalize swap intents end to end`              | This plan, project scaffold, registry, exact amounts, adapter, normalize CLI, examples, focused tests, early access findings                | Both chain examples normalize; rejected input makes no API call; local build and relevant tests pass |
-| C2     | `feat: query Bebop and inspect live RFQ quotes`                   | Client, configuration, request/response mapping, inspector, quote CLI, text/JSON output, focused integration tests, sanitized live evidence | Actual quotes on both chains; all required fields visible; amounts and identity checks correct       |
-| C3     | `feat: harden quote failures and add deterministic verification`  | Structured errors, retry/deadline policy, defensive parsing, failure tests, explicit offline demo, check command, CI                        | Failure matrix and offline checks pass; demo is visibly mocked and network-independent               |
-| C4     | `feat: add LI.FI discovery and trade-size comparisons`            | LI.FI client and command, compare service and presentation, bonus tests and usage examples                                                  | Real discovery works; bounded comparisons handle mixed results and expiry correctly                  |
-| C5     | `docs: package quote explorer setup demo and submission evidence` | Final README, AI notes, integration explanations, live verification, screenshot/recording, submission links                                 | Fresh-checkout instructions work; final acceptance checklist has authentic evidence                  |
+| Commit | Planned message                                                  | Included work                                                                                                                               | Review / verification checkpoint                                                                        |
+| ------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| C1     | `feat: accept and normalize swap intents end to end`             | This plan, project scaffold, registry, exact amounts, adapter, normalize CLI, examples, focused tests, early access findings                | Both chain examples normalize; rejected input makes no API call; local build and relevant tests pass    |
+| C2     | `feat: query Bebop and inspect live RFQ quotes`                  | Client, configuration, request/response mapping, inspector, quote CLI, text/JSON output, focused integration tests, sanitized live evidence | Actual quotes on both chains; all required fields visible; amounts and identity checks correct          |
+| C3     | `feat: harden quote failures and add deterministic verification` | Structured errors, retry/deadline policy, defensive parsing, failure tests, explicit offline demo, check command, CI                        | Failure matrix and offline checks pass; demo is visibly mocked and network-independent                  |
+| C4     | `feat: add LI.FI discovery and trade-size comparisons`           | LI.FI client and command, compare service and presentation, bonus tests and usage examples                                                  | Real discovery works; bounded comparisons handle mixed results and expiry correctly                     |
+| C5     | `docs: finalize local setup and submission documentation`        | Final README, AI notes, integration explanations, clean-install evidence, submission notes, explicit author handoff                         | Clean-source instructions work; local evidence is linked; video and publication are explicitly deferred |
 
-C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3 records G3 reliability, demo, and CI. C4 records G4 discovery, comparison, tests, and live evidence. C5 remains planned; G5 has not started.
+C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3 records G3 reliability, demo, and CI. C4 records G4 discovery, comparison, tests, and live evidence. C5 packages local documentation and verification under the revised G5 scope. Video recording belongs to the author; publication and hosted CI remain deferred.
 
 Working conventions:
 
@@ -506,7 +510,7 @@ The README should cover:
 - Show LI.FI discovery and a small size comparison if included.
 - Show the explicit offline demo briefly, clearly distinguished from live evidence.
 
-Save a real terminal screenshot or short screen recording under `docs/demo/`. A generated mockup is not proof of running software. Quote screenshots are historical; include capture time and explain that their execution data expires.
+The author will record a real terminal screenshot or short screen recording and add it under `docs/demo/` or provide an external link in `SUBMISSION.md`. No video or screenshot is generated by the assistant under the revised G5 scope. A generated mockup is not proof of running software. Quote screenshots are historical; include capture time and explain that their execution data expires.
 
 ### Final acceptance checklist
 
@@ -518,12 +522,13 @@ Save a real terminal screenshot or short screen recording under `docs/demo/`. A 
 - [x] Every required quote and transaction field is displayed.
 - [x] Amounts and rates avoid unsafe floating-point conversion.
 - [x] Invalid inputs, unsupported routes, upstream failures, and rate limits are handled.
-- [ ] No private-key, signing, approval-submission, or broadcast functionality exists.
-- [ ] Relevant mocked tests and CI checks pass.
+- [x] No private-key, signing, approval-submission, or broadcast functionality exists.
+- [x] Relevant mocked tests and local equivalents of CI checks pass.
+- [ ] Hosted GitHub Actions execution verified after publication (deferred by the author).
 - [x] Live and mock results are unmistakably different.
-- [ ] README and AI usage notes reflect the actual implementation.
-- [ ] Screenshot or recording demonstrates the implemented CLI.
-- [ ] Repository is available on GitHub and its URL is included in the submission.
+- [x] README, submission notes, and AI usage notes reflect the implementation and delivery scope.
+- [ ] Screenshot or recording demonstrates the implemented CLI (author-owned).
+- [ ] Repository is available on GitHub and its URL is included in the submission (deferred by the author).
 
 ## 13. Risk register
 
@@ -538,4 +543,4 @@ Save a real terminal screenshot or short screen recording under `docs/demo/`. A 
 | Scope expands into a trading system            | Keep quote-only boundary and explicit exclusions                               | Defer execution and frontend extras                      |
 | CI appears successful while live API is broken | Separate offline checks from manual live acceptance                            | Submission requires both forms of evidence               |
 
-G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. G3 adds bounded error handling/retries, the explicit offline demo, and CI configuration. G4 adds independent LI.FI chain discovery and bounded trade-size comparisons with exact ranking and partial results. The next goal is G5: final documentation, authentic demo capture, and submission packaging. Preserve dated G1 access failures alongside the successful G2 observations.
+G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. G3 adds bounded error handling/retries, the explicit offline demo, and CI configuration. G4 adds independent LI.FI chain discovery and bounded trade-size comparisons with exact ranking and partial results. G5 packages local documentation and reproducibility evidence. The author owns demo capture and has deferred publication; the final external submission remains open until those items are added. Preserve dated G1 access failures alongside the successful G2 observations.
