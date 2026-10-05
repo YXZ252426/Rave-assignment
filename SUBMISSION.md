@@ -2,17 +2,19 @@
 
 ## Delivery status
 
-The local CLI and documentation are ready for review. The author requested local delivery first and will record the video separately. There is no published repository URL or demo attachment in this package yet; those final submission items remain open. Hosted GitHub Actions execution is also unverified.
+The local implementation and documentation are ready for code review. The author created [https://github.com/YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment), but the final check found no remote branches or code yet. The author will attach the video separately, and hosted GitHub Actions execution remains unverified.
 
-| Deliverable                                   | Location / status                                |
-| --------------------------------------------- | ------------------------------------------------ |
-| Source, examples, lockfile and tests          | This local Git repository                        |
-| Setup, commands, API behavior and limitations | [README](README.md)                              |
-| AI usage disclosure                           | [AI_USAGE.md](AI_USAGE.md)                       |
-| Real two-chain quote evidence                 | [Live verification](docs/live-verification.md)   |
-| Clean installation and offline verification   | [Local verification](docs/local-verification.md) |
-| GitHub repository URL                         | Deferred by the author; add after publication    |
-| Screenshot or short demo video                | To be recorded and attached by the author        |
+**Latest live check:** on 2026-10-05 at 09:25 UTC, anonymous Bebop requests on both Ethereum and Base returned HTTP 403 in the development environment. Earlier successful quotes remain documented, but current live access needs to be rechecked in the demonstration environment. See the [final readiness check](docs/submission-readiness.md).
+
+| Deliverable                                   | Location / status                                                                                      |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Source, examples, lockfile and tests          | This local Git repository                                                                              |
+| Setup, commands, API behavior and limitations | [README](README.md)                                                                                    |
+| AI usage disclosure                           | [AI_USAGE.md](AI_USAGE.md)                                                                             |
+| Real two-chain quote evidence                 | [Live verification](docs/live-verification.md)                                                         |
+| Clean installation and offline verification   | [Local verification](docs/local-verification.md)                                                       |
+| GitHub repository URL                         | [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment) — created; code push pending |
+| Screenshot or short demo video                | To be recorded and attached by the author                                                              |
 
 ## Short explanation: LI.FI intent model
 
@@ -87,6 +89,7 @@ The first three commands establish installation, offline checks, and an explicit
 
 ## Remaining author handoff
 
-- Publish the repository when ready and add its URL here.
+- Push the local commits to the repository above and confirm the README, source, examples and lockfile are visible.
+- Recheck live quotes on Ethereum and Base in the intended demo environment; investigate the latest HTTP 403 before recording live output. Optional API-key configuration is documented, but a key is not established as a fix for this access denial.
 - Record the implemented CLI, attach the screenshot or video, and add its path or URL here. Include input, live required fields on both chains, and a local validation failure; label any mock example and historical quote expiry.
 - After publishing, verify the hosted Actions result separately from the already recorded local checks.

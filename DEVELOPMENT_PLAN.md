@@ -2,7 +2,7 @@
 
 Date: 2026-10-05
 
-Status: G1-G4 complete and verified on 2026-10-05. G5 local documentation and reproducibility verification are complete on 2026-10-05. The author will record the video; GitHub publication and hosted CI execution are deferred at the author's request.
+Status: G1-G4 complete and verified on 2026-10-05. G5 local documentation and reproducibility verification are complete on 2026-10-05. The author will record the video. The GitHub repository has now been created, but code push and hosted CI remain pending. The latest live access check returned HTTP 403 on both chains; see [submission readiness](docs/submission-readiness.md).
 
 Default implementation: TypeScript CLI on Node.js 24 LTS (24.5+ required for environment proxy support)
 
@@ -320,7 +320,7 @@ Generate a short explanation from validated fields, without an LLM dependency. I
 
 The implementation is fully AI-native: work proceeds in substantial end-to-end increments, with runnable behavior and evidence at each checkpoint. Scaffolding, types, client code, presentation, and relevant tests belong together when they serve the same goal. Individual files or architectural layers do not need separate milestones or commits.
 
-**G1-G4 and the revised local G5 scope are complete.** The author owns video recording and has deferred GitHub publication. Those final assignment deliverables remain open. CI is configured and its steps passed locally; a hosted Actions run has not been claimed. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
+**G1-G4 and the revised local G5 scope are complete.** The author owns video recording. The remote repository has been created, but code push and hosted CI remain pending. Final delivery status and the latest provider-access limitation are tracked in [submission readiness](docs/submission-readiness.md). CI is configured and its steps passed locally; a hosted Actions run has not been claimed. The earlier G1 access failure is historical; G2 established a working Node-client path using the existing environment proxy.
 
 G1 acceptance evidence (2026-10-05):
 
@@ -457,7 +457,7 @@ Default to **five substantial commits, one per goal**. Commit boundaries follow 
 | C4     | `feat: add LI.FI discovery and trade-size comparisons`           | LI.FI client and command, compare service and presentation, bonus tests and usage examples                                                  | Real discovery works; bounded comparisons handle mixed results and expiry correctly                     |
 | C5     | `docs: finalize local setup and submission documentation`        | Final README, AI notes, integration explanations, clean-install evidence, submission notes, explicit author handoff                         | Clean-source instructions work; local evidence is linked; video and publication are explicitly deferred |
 
-C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3 records G3 reliability, demo, and CI. C4 records G4 discovery, comparison, tests, and live evidence. C5 packages local documentation and verification under the revised G5 scope. Video recording belongs to the author; publication and hosted CI remain deferred.
+C1 records the completed G1 implementation and its acceptance checks. C2 records the G2 quote pipeline and live verification. C3 records G3 reliability, demo, and CI. C4 records G4 discovery, comparison, tests, and live evidence. C5 packages local documentation and verification under the revised G5 scope. Video recording belongs to the author; the newly created remote still needs the code push and hosted CI verification.
 
 Working conventions:
 
@@ -524,11 +524,11 @@ The author will record a real terminal screenshot or short screen recording and 
 - [x] Invalid inputs, unsupported routes, upstream failures, and rate limits are handled.
 - [x] No private-key, signing, approval-submission, or broadcast functionality exists.
 - [x] Relevant mocked tests and local equivalents of CI checks pass.
-- [ ] Hosted GitHub Actions execution verified after publication (deferred by the author).
+- [ ] Hosted GitHub Actions execution verified after the pending code push.
 - [x] Live and mock results are unmistakably different.
 - [x] README, submission notes, and AI usage notes reflect the implementation and delivery scope.
 - [ ] Screenshot or recording demonstrates the implemented CLI (author-owned).
-- [ ] Repository is available on GitHub and its URL is included in the submission (deferred by the author).
+- [ ] Code is available on GitHub (repository URL added; code push pending).
 
 ## 13. Risk register
 
@@ -543,4 +543,4 @@ The author will record a real terminal screenshot or short screen recording and 
 | Scope expands into a trading system            | Keep quote-only boundary and explicit exclusions                               | Defer execution and frontend extras                      |
 | CI appears successful while live API is broken | Separate offline checks from manual live acceptance                            | Submission requires both forms of evidence               |
 
-G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. G3 adds bounded error handling/retries, the explicit offline demo, and CI configuration. G4 adds independent LI.FI chain discovery and bounded trade-size comparisons with exact ranking and partial results. G5 packages local documentation and reproducibility evidence. The author owns demo capture and has deferred publication; the final external submission remains open until those items are added. Preserve dated G1 access failures alongside the successful G2 observations.
+G1 provides intent normalization; G2 now requests and inspects real Bebop quotes on both chains. G3 adds bounded error handling/retries, the explicit offline demo, and CI configuration. G4 adds independent LI.FI chain discovery and bounded trade-size comparisons with exact ranking and partial results. G5 packages local documentation and reproducibility evidence. The author owns demo capture; the remote repository has been created but code push remains pending. The final external submission remains open, with current provider-access limitations recorded in the readiness check. Preserve dated G1 access failures alongside the successful G2 observations.

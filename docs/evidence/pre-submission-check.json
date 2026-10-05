@@ -1,0 +1,57 @@
+{
+  "note": "Pre-submission read-only checks. Quotes are historical observations with original expiry; no signing, approval or broadcast occurred. GitHub repository exists but code publication and hosted CI are pending.",
+  "checkedCommit": "4f98a18a64d9043e743a996f0500530127dd1df0",
+  "repository": {
+    "url": "https://github.com/YXZ252426/Rave-assignment",
+    "public": true,
+    "branches": [],
+    "workflowRuns": 0,
+    "observation": "GitHub API returned an empty branch list and no workflow runs; git ls-remote returned no refs."
+  },
+  "localCheck": {
+    "command": "npm run check",
+    "exitCode": 0,
+    "testsPassed": 244,
+    "testFilesPassed": 14
+  },
+  "startedAt": "2026-10-05T09:25:21.443973+00:00",
+  "quotes": [
+    {
+      "network": "ethereum",
+      "command": "node --use-env-proxy dist/cli.js quote --intent examples/ethereum-usdc-weth.json --json",
+      "startedAt": "2026-10-05T09:25:21.443989+00:00",
+      "completedAt": "2026-10-05T09:25:22.347085+00:00",
+      "apiKeyUsed": false,
+      "exitCode": 1,
+      "report": null,
+      "error": {
+        "error": {
+          "code": "UPSTREAM_ACCESS_DENIED",
+          "message": "Upstream access denied (HTTP 403); an API authentication failure has not been established.",
+          "httpStatus": 403,
+          "attempts": 1,
+          "retryable": false
+        }
+      }
+    },
+    {
+      "network": "base",
+      "command": "node --use-env-proxy dist/cli.js quote --intent examples/base-usdc-weth.json --json",
+      "startedAt": "2026-10-05T09:25:22.347169+00:00",
+      "completedAt": "2026-10-05T09:25:23.172130+00:00",
+      "apiKeyUsed": false,
+      "exitCode": 1,
+      "report": null,
+      "error": {
+        "error": {
+          "code": "UPSTREAM_ACCESS_DENIED",
+          "message": "Upstream access denied (HTTP 403); an API authentication failure has not been established.",
+          "httpStatus": 403,
+          "attempts": 1,
+          "retryable": false
+        }
+      }
+    }
+  ],
+  "completedAt": "2026-10-05T09:25:23.172198+00:00"
+}

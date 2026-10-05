@@ -40,3 +40,9 @@ On 2026-10-05 at 06:54:38–06:54:39 UTC, the final `chains --provider lifi --js
 At 06:54:39–06:54:42 UTC, the final Base `compare --amounts 100,500,1000 --json` command returned three successful, validated Bebop quotes and exited 0. Each quote included calldata and was unexpired at completion. The best observed WETH-per-USDC rate belonged to row 3. No approval, signing, or submission was performed.
 
 The [G4 notes](discovery-and-comparison.md) explain semantics, limitations, and observed prices. [Discovery output](evidence/g4-discovery-cli.json) and [comparison output](evidence/g4-live-comparison.json) include command, timestamps, and exit status. These are historical reports with original expiry, not current executable quotes. Default tests do not read these reports as live responses.
+
+## Final pre-submission check: access currently denied
+
+On **2026-10-05 at 09:25:21–09:25:23 UTC**, the unchanged CLI was exercised again on Ethereum and Base, using the checked-in example intents, anonymous access, and the existing environment proxy configuration. Both returned **HTTP 403**, surfaced as `UPSTREAM_ACCESS_DENIED` with exit code `1`, one attempt, and no retry. No live quote was obtained in this check.
+
+The [saved check](evidence/pre-submission-check.json) contains timestamps, commands, and structured errors. The status alone does not establish missing credentials or a particular edge-policy cause. No bypass or repeated request loop was attempted. Prior successful observations remain historical evidence; they do not establish current access. Recheck in the actual demonstration environment before recording or submitting a claim that live requests currently succeed.
