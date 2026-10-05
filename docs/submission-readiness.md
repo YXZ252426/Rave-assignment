@@ -1,10 +1,10 @@
 # Final submission readiness check
 
-Checked on 2026-10-05 against local commit `4f98a18`. This follow-up changes documentation and evidence only.
+Initial check on 2026-10-05 against local commit `4f98a18`; the table below preserves that pre-publication observation. Subsequent author confirmation and publication status are recorded separately. Application code and dependencies remain unchanged.
 
 ## Assessment
 
-The implementation satisfies the assignment's functional scope and its offline checks pass. The external submission package is not complete: code has not been pushed to the newly created repository, the author-owned recording is missing, and the latest anonymous Bebop requests are denied in this environment.
+The implementation satisfies the assignment's functional scope and its offline checks pass. After the initial check, the author confirmed successful operation in their own environment and authorized publication. The author-owned recording remains outstanding. The development-environment HTTP 403 is retained as a dated observation, not treated as evidence that every environment is blocked.
 
 | Item                                                      | Verified status                                                                                                                                      | Next action                                                          |
 | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -35,12 +35,14 @@ npm --silent start -- quote --intent examples/base-usdc-weth.json --json
 
 If authorized Bebop API credentials are available, configure `BEBOP_API_KEY` using the README. If denial persists, obtain provider guidance rather than repeatedly retrying. The offline `demo` remains useful for demonstrating inspection, but it must stay labeled MOCK and cannot replace evidence of current live access.
 
-## Remaining submission tasks
+## Author confirmation and publication
 
-1. Confirm live quote access in the environment used for the demonstration, and preserve any unresolved limitation honestly.
-2. Configure the Git remote, push the local commits, and check that GitHub displays the expected code and README.
-3. Verify the hosted Actions result. CI is an implemented bonus; a configured workflow is not evidence of a successful run.
-4. Attach the author's screenshot or video and add its link to `SUBMISSION.md`.
-5. Submit the repository URL with the recording and AI usage notes. The three requested technical explanations are already in `SUBMISSION.md`.
+On 2026-10-05, after reviewing the access result, the author reported that the tool runs successfully in their environment and asked to publish the repository. This is a user-reported confirmation; no new API response, credential configuration, or cause of the earlier HTTP 403 was supplied. Earlier captured successes and failures remain unchanged.
+
+Publication target: [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment), branch `main`. The initial zero-branch and zero-workflow observations in the table above describe the state before publication. Hosted verification is available on the [Actions page](https://github.com/YXZ252426/Rave-assignment/actions); its outcome will be recorded after the first run.
+
+## Remaining author task
+
+Attach the screenshot or video and add its link to `SUBMISSION.md`, then send the repository URL, recording, and AI usage notes to the assignment reviewer. The three requested technical explanations are already in `SUBMISSION.md`.
 
 A frontend, Docker image, USDT support, wallet connection, transaction execution, and further features are not needed to satisfy the current assignment scope.

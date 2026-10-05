@@ -60,3 +60,7 @@ G5 clean-source verification completed on 2026-10-05 at 07:10:34–07:10:40 UTC 
 After the author supplied the GitHub repository URL, Codex checked the public repository metadata, remote refs and workflow runs. The repository existed but had no branches or Actions runs; the local checkout had no configured remote. Codex added the URL and outstanding delivery tasks to the documentation without pushing code or creating a recording.
 
 The complete local check suite again passed with 244 tests across 14 files. Two fresh anonymous Bebop requests on 2026-10-05 at 09:25 UTC returned HTTP 403, one on each chain. The CLI reported access denial without retrying; no successful quote is claimed for this check and the cause was not inferred from the status alone. [Submission readiness](docs/submission-readiness.md) and its saved evidence distinguish this current limitation from the earlier successful quotes. No application code or dependency changed.
+
+## Publication authorization
+
+The author subsequently reported successful operation in their own environment and explicitly authorized publication to `YXZ252426/Rave-assignment`. Codex updated the readiness wording to distinguish that user report from captured API evidence, retained the historical 403 result, and prepared the local history for the remote `main` branch. No new live quote, code change, or explanation for the environment-specific access result is inferred from the author's message. Video recording remains the author's task.

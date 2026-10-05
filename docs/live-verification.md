@@ -46,3 +46,7 @@ The [G4 notes](discovery-and-comparison.md) explain semantics, limitations, and 
 On **2026-10-05 at 09:25:21–09:25:23 UTC**, the unchanged CLI was exercised again on Ethereum and Base, using the checked-in example intents, anonymous access, and the existing environment proxy configuration. Both returned **HTTP 403**, surfaced as `UPSTREAM_ACCESS_DENIED` with exit code `1`, one attempt, and no retry. No live quote was obtained in this check.
 
 The [saved check](evidence/pre-submission-check.json) contains timestamps, commands, and structured errors. The status alone does not establish missing credentials or a particular edge-policy cause. No bypass or repeated request loop was attempted. Prior successful observations remain historical evidence; they do not establish current access. Recheck in the actual demonstration environment before recording or submitting a claim that live requests currently succeed.
+
+## Author's subsequent environment check
+
+Later on 2026-10-05, the author reported that the tool runs successfully in their own environment and authorized repository publication. This is a user-reported confirmation, not a newly captured API response. It does not establish the cause of the development environment's earlier HTTP 403. Existing timestamps and saved responses remain unchanged.

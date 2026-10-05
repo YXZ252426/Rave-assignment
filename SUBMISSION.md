@@ -2,19 +2,19 @@
 
 ## Delivery status
 
-The local implementation and documentation are ready for code review. The author created [https://github.com/YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment), but the final check found no remote branches or code yet. The author will attach the video separately, and hosted GitHub Actions execution remains unverified.
+The implementation and documentation are ready for code review in [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment). The author has confirmed that the tool runs successfully in their environment and authorized publication. The author will attach the video separately. Hosted verification is tracked in [GitHub Actions](https://github.com/YXZ252426/Rave-assignment/actions).
 
-**Latest live check:** on 2026-10-05 at 09:25 UTC, anonymous Bebop requests on both Ethereum and Base returned HTTP 403 in the development environment. Earlier successful quotes remain documented, but current live access needs to be rechecked in the demonstration environment. See the [final readiness check](docs/submission-readiness.md).
+**Access evidence:** captured live quotes succeeded earlier on both chains. A later anonymous check returned HTTP 403 in the development environment; the author subsequently reported successful operation in their own environment. That confirmation is user-reported, not an additional captured API response. See the [readiness record](docs/submission-readiness.md).
 
-| Deliverable                                   | Location / status                                                                                      |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Source, examples, lockfile and tests          | This local Git repository                                                                              |
-| Setup, commands, API behavior and limitations | [README](README.md)                                                                                    |
-| AI usage disclosure                           | [AI_USAGE.md](AI_USAGE.md)                                                                             |
-| Real two-chain quote evidence                 | [Live verification](docs/live-verification.md)                                                         |
-| Clean installation and offline verification   | [Local verification](docs/local-verification.md)                                                       |
-| GitHub repository URL                         | [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment) — created; code push pending |
-| Screenshot or short demo video                | To be recorded and attached by the author                                                              |
+| Deliverable                                   | Location / status                                                         |
+| --------------------------------------------- | ------------------------------------------------------------------------- |
+| Source, examples, lockfile and tests          | [GitHub source](https://github.com/YXZ252426/Rave-assignment)             |
+| Setup, commands, API behavior and limitations | [README](README.md)                                                       |
+| AI usage disclosure                           | [AI_USAGE.md](AI_USAGE.md)                                                |
+| Real two-chain quote evidence                 | [Live verification](docs/live-verification.md)                            |
+| Clean installation and offline verification   | [Local verification](docs/local-verification.md)                          |
+| GitHub repository URL                         | [YXZ252426/Rave-assignment](https://github.com/YXZ252426/Rave-assignment) |
+| Screenshot or short demo video                | To be recorded and attached by the author                                 |
 
 ## Short explanation: LI.FI intent model
 
@@ -89,7 +89,5 @@ The first three commands establish installation, offline checks, and an explicit
 
 ## Remaining author handoff
 
-- Push the local commits to the repository above and confirm the README, source, examples and lockfile are visible.
-- Recheck live quotes on Ethereum and Base in the intended demo environment; investigate the latest HTTP 403 before recording live output. Optional API-key configuration is documented, but a key is not established as a fix for this access denial.
 - Record the implemented CLI, attach the screenshot or video, and add its path or URL here. Include input, live required fields on both chains, and a local validation failure; label any mock example and historical quote expiry.
-- After publishing, verify the hosted Actions result separately from the already recorded local checks.
+- Include the repository URL and AI usage notes with the recording when sending the final assignment submission.

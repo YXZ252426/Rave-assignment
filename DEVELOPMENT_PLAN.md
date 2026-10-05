@@ -2,7 +2,7 @@
 
 Date: 2026-10-05
 
-Status: G1-G4 complete and verified on 2026-10-05. G5 local documentation and reproducibility verification are complete on 2026-10-05. The author will record the video. The GitHub repository has now been created, but code push and hosted CI remain pending. The latest live access check returned HTTP 403 on both chains; see [submission readiness](docs/submission-readiness.md).
+Status: G1-G4 complete and verified on 2026-10-05. G5 local documentation and reproducibility verification are complete on 2026-10-05. The author will record the video and has authorized GitHub publication after confirming successful operation in their environment. Publication and hosted CI are tracked in [submission readiness](docs/submission-readiness.md).
 
 Default implementation: TypeScript CLI on Node.js 24 LTS (24.5+ required for environment proxy support)
 
